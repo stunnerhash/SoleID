@@ -4,9 +4,9 @@ const transactionSchema = new mongoose.Schema({
 	transactionId: { type: String, required: true, unique: true },
 	timeStamp:{ type: Number, default: (new Date()).getTime() },
 	organizationName:{ type: String, required: true },
-	organizationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization', required: true },
-	userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-	hashCode:{ type: String, required:true },
+	organizationId: { type: String, required: true },
+	userId: { type: String, required: true },
+	hashCode:{ type: String, required:true, default:"NA" },
 	fields: {
 		name:{
 			value:{ type: String},
