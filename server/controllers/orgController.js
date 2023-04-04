@@ -111,11 +111,11 @@ export const getUserResponseToTrasaction = async (req, res) => {
 			}
 		}
 		return res.status(200).json(requiredFields);
-	} catch (error) {
+	} 
+	catch (error) {
 		console.error(error);
 		return res.status(500).json({ message: 'Internal server error' });
 	}
-
 };
 
 export default router;
