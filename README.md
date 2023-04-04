@@ -1,8 +1,7 @@
 # SoleId 
 Distributed idenity solution
 
-# How to setup
-server <br>
+# How to setup server side
 `cd server`<br>
-`npm i` 
+`npm i` <br>
 `npm start`
