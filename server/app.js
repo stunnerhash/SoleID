@@ -19,7 +19,7 @@ app.use('/users', userRoutes);
 app.use('/organizations', orgRoutes);
 
 // Start the server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
