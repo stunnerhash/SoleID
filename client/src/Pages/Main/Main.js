@@ -6,8 +6,7 @@ import axios from 'axios';
 
 
 function Main() {
-    // const [isApproved, setIsApproved] = React.useState(false);
-    // const [isFaded, setFaded] = React.useState(false);
+    
     const [userData, setUserData] = React.useState(null);
     const [transactions, setTransactions] = React.useState([]);
     const [query,setQuery]=React.useState("")
@@ -72,7 +71,7 @@ function Main() {
                         <img src={ScanIcon} alt="scanIcon" />
                         <div className='main__cardContent'>
                             <div><strong>SoleID</strong></div>
-                            <div>{userData?.userId.match(/.{1,4}/g).join('-')}</div>
+                            <div>{userData?.userId?.match(/.{1,4}/g).join('-')}</div>
                             <div>EXP : {expiryDate()} </div>
                             <div>ISSUED : {issuedDate(userData?.lastUpdated)}</div>
                         </div>

@@ -1,14 +1,21 @@
 import React from 'react';
-import { ExitIcon } from '../../assets';
+import { ExitIcon, transaction } from '../../assets';
 import './navbar.css';
 
-function Navbar() {
+function Navbar({isOrgProp}) {
   return (
     <div className='navbar'>
-        <div className='navbar__logo'>SOLE ID</div>
+      <div className='navbar__logo'>SOLE ID</div>
+      <div className='navbar__parent'>
+        {isOrgProp?
         <div className='navbar__logo'>
-            <img src={ExitIcon} alt="exitIcon" />
+        <img src={transaction} alt="exitIcon" />
+       </div>:""
+        }
+        <div className='navbar__logo'>
+          <img src={ExitIcon} alt="exitIcon" />
         </div>
+      </div>
     </div>
   )
 }

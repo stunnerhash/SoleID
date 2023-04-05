@@ -1,0 +1,25 @@
+.thistory__view {
+    width: 429px;
+    height: 39px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+    text-decoration: underline;
+    margin-top: 20px;
+}
+
+.tHistory__data {
+    width: 273px;
+    height: 31px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    color: #000000;
+    margin-top: 40px;
+}
