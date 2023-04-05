@@ -90,8 +90,45 @@ export const getTransactionById = async (req, res) => {
 	}
 };
 
-export const respondToTransaction= async (req, res) => {
-	
+export const respondToTransaction = async (req, res) => {
+	const transactionId = req.params.transactionId;
+	const userId = req.params.id;
+	const {status} = req.body;
+	// Validate input
+	if (!['approved', 'rejected'].includes(status)) {
+		return res.status(400).json({ error: 'Invalid status' });
+	}
+	try{
+		// find the user
+		const user = await User.findOne({ userId: userId });
+		if(!user) {
+			return res.status(404).json({error:'User not found'});
+		}
+		// find the transaction
+		const transaction = await Transaction.findOneAndUpdate(
+			{ transactionId, userId },
+			{ status },
+			{ new: true },
+		);
+		if (!transaction) {
+			return res.status(404).json({ error: 'Transaction not found' });
+		}
+		// updated transaction
+		const fields = {};
+		Object.entries(user.toObject()).forEach(([key, value]) => {
+			if (transaction.fields[key] && transaction.fields[key].isRequired) {
+				fields[key] = { value, isRequired: true };
+			}
+		});
+		// Update the transaction with the fields
+		transaction.fields = fields;
+		// await transaction.save();
+		res.status(200).json(transaction);
+	}
+	catch(err){
+		console.log(err);
+		res.status(500).json({error: 'Failed to respond to Transaction'})
+	}
 };
 
 export default router;

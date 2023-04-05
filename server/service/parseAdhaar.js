@@ -20,5 +20,5 @@ const xmlData = async filePath => {
   }
 };
 
-// xmlData().then(generalInfo => console.log(generalInfo)).catch(err){}
+xmlData("../adhaarXML/adhaar.xml").then(generalInfo => console.log(generalInfo));
 export default xmlData;

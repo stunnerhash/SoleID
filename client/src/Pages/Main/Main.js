@@ -6,61 +6,99 @@ import axios from 'axios';
 
 
 function Main() {
-    const [isApproved, setIsApproved] = React.useState(false);
-    const [isFaded, setFaded] = React.useState(false);
+    // const [isApproved, setIsApproved] = React.useState(false);
+    // const [isFaded, setFaded] = React.useState(false);
+    const [userData, setUserData] = React.useState(null);
+    const [transactions, setTransactions] = React.useState([]);
+    const [query,setQuery]=React.useState("")
+    
+    const onDeclinedAction = async (data) => {
+       const decline=await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"rejected"})
 
-    const onFadedAction = () => {
-        setFaded(true);
-    }
-
-    const onApprovedAction = () => {
-        setIsApproved(true);
-    }
-    const userData=()=>{
-        const userD={
-           "name":"shivangi",
-           "email":"shivi@tekion.com"
+       if (userData?.userId) {
+        axios.get(`http://localhost:8000/users/${userData.userId}/transactions`)
+            .then(response => setTransactions(response.data));
         }
-        const data = axios.post("https://localhost:8000/users",userD);
-        console.log(data)
     }
-  return (
-    <div>
-        <Navbar />
-        <div className='main__body'>
-            {userData()}
-            <div className='main__card'>
-                <div className='main__cardtitle'>Welcome, Utkarsh </div>
-                <div className='main__cardsubtitle'>Start verifying securely</div>
-                <div className='main__cardContainer'>
-                    <img src={ScanIcon} alt="scanIcon"/>
-                    <div className='main__cardContent'>
-                        <div><strong>SoleID</strong></div>
-                        <div>6125 - 1971 - BJ25</div>
-                        <div>EXP : 12/2025</div>
-                        <div>ISSUED : 10/22</div>
+
+    const onApprovedAction = async (data) => {
+
+        const approved= await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"approved"})
+        if (userData?.userId) {
+            axios.get(`http://localhost:8000/users/${userData.userId}/transactions`)
+                .then(response => setTransactions(response.data));
+        }
+    }
+
+    const issuedDate = (lastUpdated) => {
+        const date = new Date(parseInt(lastUpdated)); // Convert timestamp to date
+        const month = date.getMonth() + 1; // Get month (returns 0-11, so add 1)
+        const year = date.getFullYear(); // Get year
+        const monthYearString = month.toString().padStart(2, '0') + '/' + year.toString(); // Format as "MM/YYYY"
+        return monthYearString// Output: "04/2023" (for example)
+    }
+    const expiryDate = () => {
+        const data = issuedDate(userData?.lastUpdated);
+        const split = data.split("/");
+        const year = parseInt(split[1]) + 1;
+        return split[0] + "/" + year.toString();
+    }
+    const handleQueryChange = (newQuery) => {
+        setQuery(newQuery);
+      }
+    React.useEffect(() => {
+        const getLocalData = () => {
+            const data = JSON.parse(localStorage.getItem('user'));
+            setUserData(data);
+        };
+        getLocalData();
+    }, []);
+
+    React.useEffect(() => {
+        if (userData?.userId) {
+            axios.get(`http://localhost:8000/users/${userData.userId}/transactions`)
+                .then(response => setTransactions(response.data));
+        }
+    }, [userData?.userId]);
+    
+    return (
+        <div>
+            <Navbar />
+            <div className='main__body'>
+                <div className='main__card'>
+                    <div className='main__cardtitle'>Welcome, {userData?.name}  </div>
+                    <div className='main__cardsubtitle'>Start verifying securely</div>
+                    <div className='main__cardContainer'>
+                        <img src={ScanIcon} alt="scanIcon" />
+                        <div className='main__cardContent'>
+                            <div><strong>SoleID</strong></div>
+                            <div>{userData?.userId.match(/.{1,4}/g).join('-')}</div>
+                            <div>EXP : {expiryDate()} </div>
+                            <div>ISSUED : {issuedDate(userData?.lastUpdated)}</div>
+                        </div>
+                    </div>
+                    <button className='btn updatebtn'>Update Information</button>
+                    <button className='btn revokebtn'>Revoke Credetentials</button>
+                </div>
+
+                <div className='main__rightCard'>
+                    <SearchBar onQueryChange={handleQueryChange}/>
+                    <div className='main_rightScroll'>
+                        {transactions?.filter((transaction)=> transaction.organizationName.includes(query.toUpperCase())).map((item, index) => (
+                            <Card
+                                key={index}
+                                data={item}
+                                // isApproved={item.isApproved}
+                                // isFaded={item.isFaded}
+                                onApprovedAction={onApprovedAction}
+                                onDeclinedAction ={onDeclinedAction}
+                            />
+                        ))}
                     </div>
                 </div>
-                <button className='btn updatebtn'>Update Information</button>
-                <button className='btn revokebtn'>Revoke Credetentials</button>
-            </div>
-
-            <div className='main__rightCard'>
-                <SearchBar />
-                <div className='main_rightScroll'>
-                <Card 
-                    isApproved={isApproved}
-                    isFaded={isFaded}
-                    onApprovedAction={onApprovedAction}
-                    onFadedAction={onFadedAction}
-                />
-                
-                </div>
-                
             </div>
         </div>
-    </div>
-  )
+    )
 };
 
 export default Main;

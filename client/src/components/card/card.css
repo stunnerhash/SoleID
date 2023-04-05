@@ -8,11 +8,11 @@
 }
 
 .card__upper {
-    padding: 8px 2px;
+    padding: 8px 30px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .card__upper div {

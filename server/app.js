@@ -1,13 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose'
-
+import cors from 'cors'
 import userRoutes from './routes/users.js';
 import orgRoutes from './routes/organizations.js';
 
 const app = express();
 app.use(bodyParser.json());
-
+app.use(cors())
 const CONNECTION_URL = 'mongodb://localhost:27017/soledb';
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })

@@ -2,8 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import crypto from 'crypto'
 
-import xmlData from "./parseAdhaar";
-const filePath = 'adhaarXML/adhaar.xml';
+import xmlData from "./parseAdhaar.js";
+const filePath = '../adhaarXML/adhaar.xml';
 
 xmlData(filePath)
   .then(generalInfo=>console.log(generalInfo))
