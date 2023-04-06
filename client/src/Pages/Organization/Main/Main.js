@@ -165,7 +165,11 @@ function OrgMain() {
                         </div>
                         <button className='org__button'>Get Verified data</button>
                     </form>
-                 :res}
+                 :<div>
+                    <div className='org__res'>{res}</div>
+                    <button className='org__button org__reset' onClick={()=> setRes("")}>Reset</button>
+                    </div>}
+                 
                    </div>
             </div>
         </div>

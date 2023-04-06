@@ -3,7 +3,7 @@ import './orgCard.css';
 import { Approve ,pending} from '../../assets';
 
 
-function Card({data}) {
+function Card({data, onCardClick}) {
     const dataCheck={
         name:data.fields.name.isRequired,
         email:data.fields.email.isRequired,
@@ -15,8 +15,17 @@ function Card({data}) {
         adhaar:data.fields.address.isRequired
     }
 
+    const cardClick = () => {
+        if(data.status === 'approved'){
+            onCardClick(data);
+            return;
+        }
+
+        onCardClick(null);
+    }
+
     return (
-        <div className={`card ${data.status === 'rejected' && 'cardFaded'}`}>
+        <div className={`card ${data.status === 'rejected' && 'cardFaded'}`} onClick={cardClick}>
             <div className='card__upper'>
                 <div className='card__upper__left'>
                     <div className='card__clg'>ID :{data?.userId.match(/.{1,4}/g).join('-')}</div>

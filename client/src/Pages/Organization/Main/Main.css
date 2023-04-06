@@ -97,3 +97,9 @@ border-radius: 10px;
 .org__left input{
     background-color: #000000;
 }
+.org__res{
+    text-align: center;
+}
+.org__reset{
+    margin-top: 200px;
+}

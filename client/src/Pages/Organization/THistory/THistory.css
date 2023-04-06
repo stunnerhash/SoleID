@@ -23,3 +23,34 @@
     color: #000000;
     margin-top: 40px;
 }
+
+.history__wrapper {
+    margin-top: 30px;
+}
+
+.history__id {
+    font-weight: 700;
+    font-size: 15px;
+    margin: 10px 0px;
+}
+
+.history__date {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #000000;
+    opacity: 0.5;
+    margin: 10px 0px;
+}
+
+.history_data {
+    font-family: 'Inter';
+    font-style: normal;
+    font-size: 13px;
+    line-height: 15px;
+    color: #000000;
+    opacity: 0.5;
+    margin: 10px 0px;
+}
