@@ -65,13 +65,16 @@ export const getTransactionById = async (req, res) => {
 export const makeTransactionToUser = async(req,res) =>{
 	try{
 		const organizationId = req.params.id;
-		const {organizationName, userId, fields, description} = req.body;
+		const {userId, fields, description} = req.body;
 		// transactionId is set
 		const transactionId = crypto.randomBytes(8).toString('hex');
 		const latestTransaction = await Transaction.find().limit(1).sort({'lastUpdated':-1});
-		const hashCode= crypto.createHash('sha256', transactionId)
-                   .update(latestTransaction[0].hashCode)
-                   .digest('hex');
+		const hashCode = latestTransaction.length > 0
+			? crypto.createHash('sha256', transactionId)
+					.update(latestTransaction[0].hashCode)
+					.digest('hex')
+			: "this is soleid's genesis block";
+
 		const timeStamp = (new Date()).getTime();
 		// Find the organization making the transaction and add ref to transaction 
 		const organization = await Organization.findOne({ organizationId: organizationId});
@@ -87,7 +90,7 @@ export const makeTransactionToUser = async(req,res) =>{
 		}// user.transactions.push(transactionId);
 		// await user.save();
 		
-		const newTransaction = new Transaction({timeStamp, transactionId, organizationName, organizationId, userId , fields, description,hashCode});
+		const newTransaction = new Transaction({timeStamp, transactionId, organizationName:organization.name, organizationId, userId , fields, description,hashCode});
 		await newTransaction.save();
 		
 		// new request object is created
