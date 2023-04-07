@@ -2,11 +2,11 @@ import mongoose from 'mongoose'
 
 const transactionSchema = new mongoose.Schema({
 	transactionId: { type: String, required: true, unique: true },
-	timeStamp:{ type: Number, default: (new Date()).getTime() },
+	timeStamp:{ type: Number, default: (new Date()).getTime()},
 	organizationName:{ type: String, required: true },
 	organizationId: { type: String, required: true },
 	userId: { type: String, required: true },
-	hashCode:{ type: String, required:true, default:"NA" },
+	hashCode:{ type: String, required:true, default:"This is soleID's genesis block" },
 	fields: {
 		name:{
 			value:{ type: String},

@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+
 
 const userSchema = new mongoose.Schema({
 	userId: { type: String, required: true, unique: true },
@@ -14,6 +16,13 @@ const userSchema = new mongoose.Schema({
 			message: props => `${props.value}$ already exists`
 		}
 	},
+	password: { 
+		type: String, 
+		default: function () { 
+			const hash = bcrypt.hashSync('12345678', 10);
+      		return hash;
+		} 
+	},
 	phone: { type: String,},
 	careof:{ type:String},
 	gender: { type: String},
@@ -23,6 +32,9 @@ const userSchema = new mongoose.Schema({
 	requests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Request'}]
 });
 
+userSchema.methods.authenticate = function (password) {
+  	return bcrypt.compareSync(password, this.password);
+};
 const User = mongoose.model('User', userSchema);
 
 export default User;

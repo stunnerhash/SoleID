@@ -1,19 +1,61 @@
 import express from 'express';
 import Transaction from '../models/transaction.js';
 import crypto from 'crypto';
-
+import bcrypt from 'bcrypt';
 import User from '../models/user.js';
+import xmlData from '../service/parseAdhaar.js';
+import jwt from 'jsonwebtoken';
 const router = express.Router();
+const secret = 'test';
+const filePath = './adhaarXML/adhaar.xml';
 
+export const getUser = async (req,res) => {
+const {userId, email, password} = req.body;
+try {
+		let user;
+		if (userId) {
+			user = await User.findOne({ userId });
+		} else if (email) {
+			user = await User.findOne({ email });
+		}
+
+		if (user && user.authenticate(password)) {
+			const token = jwt.sign({id:user.userId},secret);
+			res.status(200).json({user:user,token:token});
+		} else {
+			res.status(401).json({ error: 'Wrong password' });
+		}
+
+		if (!user) {
+			res.status(404).json({ error: 'User not found' });
+		}
+	
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ error: 'Failed to get user' });
+	}
+}
 export const createUser = async (req, res) => {
-	const { name, email, phone, careof, gender, dob, address, adhaar } = req.body;
-	const userId = crypto.randomBytes(6).toString('hex');
-	const newUser = new User({
-		userId, name, email, phone, careof, gender, dob, address, adhaar
-	});
+	const result = await xmlData(filePath);
+	const {name,e,m,dob,gender}= result.generalInfo;
+	const {careof,house,street,dist,state,country,pc} = result.addressInfo;
+	const address = house + ', ' + street + ', ' + dist + ', ' + state + ', ' + country +', ' + pc;
+	const referenceId = (result.referenceId.referenceId);
+	const adhaar = "XXXXXXXX" + referenceId.substring(0,4)
 	try{
+		const userId = crypto.randomBytes(6).toString('hex');
+		const user = await User.findOne({email:e});
+		if(user) {
+			res.status(400).json({error:'User already exists'});
+			return;
+		}
+		
+		const newUser = new User({
+			userId, name, email:e, phone:m, careof, gender, dob, address, adhaar
+		});
 		await newUser.save();
-        res.status(201).json(newUser);
+		const token = jwt.sign({ id:userId }, secret);
+        res.status(201).json({user:newUser, token:token});
 	}
 	catch(err){
 		console.log(err);
@@ -21,18 +63,22 @@ export const createUser = async (req, res) => {
 	}
 };
 
-export const updateUser = async (req, res) => {
-	const { userId } = req.params;
-	const update = req.body;
 
+export const updateUser = async (req, res) => {
+	const userId = req.params.id;
+	const update = req.body;
+	
 	try {
+		if(update.password) {
+			update.password = bcrypt.hashSync(update.password, 10); // 10 number of rounds for the hash
+		}
 		// Use findOneAndUpdate to find the user by ID and update the specified fields
 		const updatedUser = await User.findOneAndUpdate(
 			{ userId: userId },
 			{ $set: update },
 			{ new: true } // return the updated document
 		);
-
+		console.log(updatedUser);
 		if (!updatedUser) {
 			res.status(404).json({ error: 'User not found' });
 			return;
@@ -46,9 +92,9 @@ export const updateUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-	const { id } = req.params;
+	const userId = req.params.id;
 	try {
-		const user = await User.findOneAndDelete({ userId: id });
+		const user = await User.findOneAndDelete({ userId});
 		if (!user) {
 			return res.status(404).json({ error: 'User not found' });
 		}
@@ -122,7 +168,7 @@ export const respondToTransaction = async (req, res) => {
 		});
 		// Update the transaction with the fields
 		transaction.fields = fields;
-		// await transaction.save();
+		await transaction.save();
 		res.status(200).json(transaction);
 	}
 	catch(err){

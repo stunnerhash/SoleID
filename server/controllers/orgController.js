@@ -68,22 +68,28 @@ export const makeTransactionToUser = async(req,res) =>{
 		const {organizationName, userId, fields, description} = req.body;
 		// transactionId is set
 		const transactionId = crypto.randomBytes(8).toString('hex');
-		const newTransaction = new Transaction({ transactionId, organizationName, organizationId, userId , fields, description});
-		await newTransaction.save();
+		const latestTransaction = await Transaction.find().limit(1).sort({'lastUpdated':-1});
+		const hashCode= crypto.createHash('sha256', transactionId)
+                   .update(latestTransaction[0].hashCode)
+                   .digest('hex');
+		const timeStamp = (new Date()).getTime();
 		// Find the organization making the transaction and add ref to transaction 
 		const organization = await Organization.findOne({ organizationId: organizationId});
 		if (!organization) {
 			return res.status(404).json({ message: 'Organization not found' });
 		}// organization.transactions.push(transactionId);
 		// await organization.save();
-
-   	 	// Find the user to whom the transaction is being made and add ref to transaction
+		
+		// Find the user to whom the transaction is being made and add ref to transaction
 		const user = await User.findOne({userId:userId});
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}// user.transactions.push(transactionId);
 		// await user.save();
-
+		
+		const newTransaction = new Transaction({timeStamp, transactionId, organizationName, organizationId, userId , fields, description,hashCode});
+		await newTransaction.save();
+		
 		// new request object is created
 		return res.status(201).json(newTransaction);
 	}
@@ -97,11 +103,15 @@ export const getUserResponseToTrasaction = async (req, res) => {
 	try {
 		const { transactionId } = req.params;
 		const transaction = await Transaction.findOne({transactionId:transactionId});
+		console.log(transaction);
 		if (!transaction) {
 			return res.status(404).json({ message: 'Transaction not found' });
 		}
-		if (transaction.status !== 'approved') {
-			return res.status(400).json({ message: 'Transaction is not approved' });
+		if (transaction.status  === 'rejected') {
+			return res.status(400).json({ message: 'Transaction request was rejected by user' });
+		}
+		else if (transaction.status === 'pending'){
+			return res.status(400).json({message : 'Transaction is still pending'});
 		}
 
 		const requiredFields = {};
@@ -110,7 +120,8 @@ export const getUserResponseToTrasaction = async (req, res) => {
 				requiredFields[key] = value.value;
 			}
 		}
-		return res.status(200).json(requiredFields);
+		const requiredFieldsJSON = JSON.parse(JSON.stringify(requiredFields));
+		return res.status(200).json(requiredFieldsJSON);
 	} 
 	catch (error) {
 		console.error(error);

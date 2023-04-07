@@ -1,9 +1,11 @@
 import express from 'express';
-import {createUser,updateUser,deleteUser, getUserTransactions, getTransactionById, respondToTransaction} from '../controllers/userController.js';
+import auth from '../middleware/auth.js'
+import {createUser,getUser,updateUser,deleteUser, getUserTransactions, getTransactionById, respondToTransaction} from '../controllers/userController.js';
 
 const router = express.Router();
 
-// Route to create a new user
+// Route for CRUD on user
+router.get('/', getUser);
 router.post('/', createUser);
 router.put('/:id', updateUser);
 router.delete('/:id', deleteUser);
