@@ -13,18 +13,16 @@ function  Login() {
     const onSubmit = (event) => {
         event.preventDefault();
         const data = {
-            "name": name,
-            "email": email
+            "userId": name,
+            "password": email
         }
         axios.post("http://localhost:8000/users", data).then(response => {
-            localStorage.setItem('user', JSON.stringify(response.data));
+			console.log(response);
             navigate('/soleid/home');
         }).catch((error) => {
-            console.log(error)
+            console.log(error);
             setError(error.response.data.error);
         });
-
-
         setName('');
         setEmail('');
     }

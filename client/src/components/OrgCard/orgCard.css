@@ -8,3 +8,13 @@
     border-radius: 5px;
     align-self: flex-end;
 }
+.rejected-btn{
+    border: none;
+    outline: none;
+    padding: 10px;
+    background: rgba(247, 184, 62, 0.1);
+    border: 1px solid #fa3939;
+    color: #fa3939;
+    border-radius: 5px;
+    align-self: flex-end;
+}

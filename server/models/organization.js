@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-
+import bcrypt from 'bcrypt';
 const organizationSchema = new mongoose.Schema({
 	organizationId: { type: String, required: true, unique: true },
 	name:{ type: String, require: true },
@@ -16,7 +16,7 @@ const organizationSchema = new mongoose.Schema({
 	transactions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Request' }]
 });
 
-userSchema.methods.authenticate = function (password) {
+organizationSchema.methods.authenticate = function (password) {
   	return bcrypt.compareSync(password, this.password);
 };
 

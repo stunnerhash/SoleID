@@ -18,15 +18,15 @@ export const getUser = async (req,res) => {
 		} else if (email) {
 			user = await User.findOne({ email });
 		}
-
+		
+		if (!user) {
+			res.status(404).json({ error: 'User not found' });
+		}
 		if (user && user.authenticate(password)) {
 			const token = jwt.sign({ id: userId }, secret);
 			res.status(200).json({user:user,token:token});
 		} else {
 			res.status(401).json({ error: 'Wrong password' });
-		}
-		if (!user) {
-			res.status(404).json({ error: 'User not found' });
 		}
 	} catch (err) {
 		console.log(err);

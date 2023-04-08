@@ -45,8 +45,8 @@ function Card({data, onCardClick}) {
                 
 
                 {data.status === 'approved'  && <button className='approve-btn'><img src={Approve} /></button> }
-                {data.status  === 'pending' && <button className='pending-btn'>pending</button>
-                }
+                {data.status === 'pending' && <button className='pending-btn'>pending</button> }
+                {data.status === 'rejected' && <button className='rejected-btn'>rejected</button> }
             </div>
         </div>
     )

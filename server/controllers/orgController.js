@@ -2,7 +2,7 @@ import express from 'express';
 import User from '../models/user.js'
 import Organization from '../models/organization.js';
 import crypto from 'crypto';
-
+import jwt from 'jsonwebtoken';
 import Transaction from '../models/transaction.js';
 const secret = 'test';
 const router = express.Router();
@@ -26,13 +26,13 @@ export const getOrganization = async(req,res) =>{
 	try {
 		let organization;
 		if (organizationId) {
-			organization = await Organization.findOne({ userId });
+			organization = await Organization.findOne({  organizationId });
 		} 
 		if (organization && organization.authenticate(password)) {
 			const token = jwt.sign({ id: organizationId}, secret);
 			res.status(200).json({user:organization,token:token});
 		} else {
-			res.status(401).json({ error: 'Wrong password' });
+			res.status(401).json({ 	error: 'Wrong password' });
 		}
 		if (!organization) {
 			res.status(404).json({ error: 'User not found' });

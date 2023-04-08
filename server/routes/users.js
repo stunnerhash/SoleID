@@ -5,8 +5,8 @@ import {createUser,getUser,updateUser,deleteUser, getUserTransactions, getTransa
 const router = express.Router();
 
 // Route for CRUD on user
-router.get('/', getUser);
-router.post('/', createUser);
+router.post('/signin', getUser);
+router.post('/signup', createUser);
 router.put('/:id', auth, updateUser);
 router.delete('/:id', auth, deleteUser);
 
