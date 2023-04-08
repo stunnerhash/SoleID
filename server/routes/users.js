@@ -7,16 +7,16 @@ const router = express.Router();
 // Route for CRUD on user
 router.get('/', getUser);
 router.post('/', createUser);
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
+router.put('/:id', auth, updateUser);
+router.delete('/:id', auth, deleteUser);
 
 // Route to view requests made to the user
-router.get('/:id/transactions', getUserTransactions);	
+router.get('/:id/transactions', auth ,getUserTransactions);	
 
 // Route to view a specific request made by the user
-router.get('/:id/transactions/:transactionId', getTransactionById);
+router.get('/:id/transactions/:transactionId', auth, getTransactionById);
 
 // Route to respond to a request made by the user
-router.put('/:id/transactions/:transactionId', respondToTransaction);
+router.put('/:id/transactions/:transactionId', auth, respondToTransaction);
 
 export default router;
