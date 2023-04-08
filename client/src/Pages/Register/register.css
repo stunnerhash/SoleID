@@ -1,0 +1,56 @@
+.login__form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.register__dialogue {
+    width: 340px;
+    height: 165px;
+    left: 448px;
+    top: 327px;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login__headline{
+    text-align: center;
+}
+.login__btn{
+    background: #F7B83E;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+label.att-each {
+    width: 40px;
+    height: 40px;
+    background: url("../../assets/input.jpeg") no-repeat;
+    text-indent: -9999px;
+    
+}
+.register__upload{
+    height: 40px;
+    color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.register__adhaarxml{
+    width: 799px;
+height: 16px;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 16px;
+line-height: 19px;
+display: flex;
+align-items: center;
+text-align: center;
+justify-content: center;
+color: #000000;
+margin-top: 70px;
+}

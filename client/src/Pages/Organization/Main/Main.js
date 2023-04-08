@@ -10,6 +10,10 @@ function OrgMain() {
     const [comment, setComment] = React.useState('')
     const [orgData, setOrgData] = React.useState('');
     const [res,setRes]=useState("")
+
+    const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem('tokenOrg')}` }
+    };  
     const [checkboxValues, setCheckboxValues] = useState({
         checkbox1: false,
         checkbox2: false,
@@ -53,7 +57,7 @@ function OrgMain() {
             }
         }
         console.log(JSON.stringify(data))
-        axios.post(`http://localhost:8000/organizations/${orgData?.organizationId}/transactions`, data).then(response => {
+        axios.post(`http://localhost:8000/organizations/${orgData?.organizationId}/transactions`, data, config).then(response => {
             setRes("Request sent successfully")
         }).catch((error) => {
             setRes("error sending the request")
@@ -91,7 +95,7 @@ function OrgMain() {
             <Navbar isOrgProp={isOrg} />
             <div className='org__main'>
                 <div className='org__clg'>{orgData?.name}</div>
-                <div className='org__id'>ID:{orgData?.organizationId?.match(/.{1,4}/g).join('-')}</div>
+                <div className='org__id'>ID:{orgData?.soleid?.match(/.{1,4}/g).join('-')}</div>
                
               <div className='org__wrapper' >
                 {res==""? <form className='org__form' onSubmit={onSubmit}>

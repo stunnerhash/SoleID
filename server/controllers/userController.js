@@ -10,31 +10,30 @@ const secret = 'test';
 const filePath = './adhaarXML/adhaar.xml';
 
 export const getUser = async (req,res) => {
-const {userId, email, password} = req.body;
-try {
+	const {userId,email, password} = req.body;
+	console.log(userId,email,password+"hello")
+	try {
 		let user;
 		if (userId) {
 			user = await User.findOne({ userId });
 		} else if (email) {
 			user = await User.findOne({ email });
 		}
-
+        if (!user) {
+			res.status(404).json({ error: 'User not found' });
+		}
 		if (user && user.authenticate(password)) {
-			const token = jwt.sign({id:user.userId},secret);
+			const token = jwt.sign({ id: userId }, secret);
 			res.status(200).json({user:user,token:token});
 		} else {
 			res.status(401).json({ error: 'Wrong password' });
 		}
-
-		if (!user) {
-			res.status(404).json({ error: 'User not found' });
-		}
-	
 	} catch (err) {
 		console.log(err);
 		res.status(500).json({ error: 'Failed to get user' });
 	}
 }
+
 export const createUser = async (req, res) => {
 	const result = await xmlData(filePath);
 	const {name,e,m,dob,gender}= result.generalInfo;
@@ -63,11 +62,10 @@ export const createUser = async (req, res) => {
 	}
 };
 
-
 export const updateUser = async (req, res) => {
-	const userId = req.params.id;
+	// const userId = req.params.id;
+	const userId = req.id;
 	const update = req.body;
-	
 	try {
 		if(update.password) {
 			update.password = bcrypt.hashSync(update.password, 10); // 10 number of rounds for the hash
@@ -92,7 +90,8 @@ export const updateUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-	const userId = req.params.id;
+	// const userId = req.params.id;
+	const userId = req.id;
 	try {
 		const user = await User.findOneAndDelete({ userId});
 		if (!user) {
@@ -106,7 +105,8 @@ export const deleteUser = async (req, res) => {
 };
 
 export const getUserTransactions= async (req, res) => {
-	const userId = req.params.id;
+	// const userId = req.params.id;
+	const userId = req.id;
 	try{
 		const transactions = await Transaction.find({ userId: userId});
 		if(!transactions){
@@ -120,7 +120,6 @@ export const getUserTransactions= async (req, res) => {
 	}
 };
 
-// update such that :id is used for verifying if the user or organization is correct
 export const getTransactionById = async (req, res) => {
 	const transactionId = req.params.transactionId;
 	try{
@@ -138,7 +137,8 @@ export const getTransactionById = async (req, res) => {
 
 export const respondToTransaction = async (req, res) => {
 	const transactionId = req.params.transactionId;
-	const userId = req.params.id;
+	// const userId = req.params.id;
+	const userId = req.id;
 	const {status} = req.body;
 	// Validate input
 	if (!['approved', 'rejected'].includes(status)) {

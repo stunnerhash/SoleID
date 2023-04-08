@@ -1,5 +1,5 @@
 import './App.css';
-import { Main,Login,OrgLogin,OrgMain,THistory} from './Pages';
+import { Main,Login,OrgLogin,OrgMain,THistory,Register,Utility} from './Pages';
 
 import {Routes, Route} from 'react-router-dom'
 
@@ -14,6 +14,8 @@ function App() {
              <Route path="orgLogin" element={<OrgLogin/>}/>
              <Route path="orgMain" element={<OrgMain/>} />
              <Route path="tHistory" element={<THistory/>} />
+             <Route path="register" element={<Register/>} />
+             <Route path="setPassword" element={<Utility/>} />
           </Route>
       </Routes>
     </div>

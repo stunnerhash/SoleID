@@ -2,25 +2,55 @@ import express from 'express';
 import User from '../models/user.js'
 import Organization from '../models/organization.js';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
 
 import Transaction from '../models/transaction.js';
+const secret = 'test';
 const router = express.Router();
 
 export const createOrganization = async (req, res) => {
-    const {name} = req.body;
+    const {name, password} = req.body;
+	const newPassword=bcrypt.hashSync(password,10)
 	const organizationId = crypto.randomBytes(6).toString('hex');
-	const newOrganization = new Organization({organizationId, name});
+	const newOrganization = new Organization({organizationId, name, password:newPassword});
+	const token = jwt.sign({ id: organizationId }, secret);
 	try{
 		await newOrganization.save();
-        res.status(201).json(newOrganization);
+        res.status(201).json({organization:newOrganization,token:token});
 	}
 	catch(err){
 		console.log(err);
 		res.status(500).json({ error: 'Failed to create Organization' });
 	}
 };
+export const getOrganization = async(req,res) =>{
+	const {organizationId, password} = req.body;
+	console.log(JSON.stringify(req.body))
+	try {
+		let organization;
+		if (organizationId) {
+			organization = await Organization.findOne({ organizationId });
+		} 
+		if (organization && organization.authenticate(password)) {
+			const token = jwt.sign({ id: organizationId}, secret);
+			res.status(200).json({user:organization,token:token});
+		} else {
+			res.status(401).json({ error: 'Wrong password' });
+		}
+		if (!organization) {
+			res.status(404).json({ error: 'Organization not found' });
+		}
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ error: 'Failed to get org' });
+	}
+};
+
 export const getOrganizationPublicKey = async(req,res) => {
-	const organizationId = req.params.id;
+	// const organizationId = req.params.id;
+	const organizationId = req.id;
 	try{
 		const organization = await Organization.findOne({ organizationId: organizationId});
 		if(!organization){
@@ -33,8 +63,10 @@ export const getOrganizationPublicKey = async(req,res) => {
 		res.status(500).json({error: 'Failed to get organization public key'});
 	}
 };
+
 export const getTransactionByOrganization= async (req, res) => {
-	const organizationId = req.params.id;
+	// const organizationId = req.params.id;
+	const organizationId = req.id;
 	try{
 		const transactions = await Transaction.find({ organizationId: organizationId});
 		if(!transactions){
@@ -62,9 +94,12 @@ export const getTransactionById = async (req, res) => {
 		res.status(500).json({error: 'Failed to get transaction'});
 	}
 };
+
 export const makeTransactionToUser = async(req,res) =>{
 	try{
-		const organizationId = req.params.id;
+		// const organizationId = req.params.id;
+		const organizationId = req.id;
+
 		const {userId, fields, description} = req.body;
 		// transactionId is set
 		const transactionId = crypto.randomBytes(8).toString('hex');

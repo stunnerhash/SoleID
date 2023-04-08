@@ -6,5 +6,6 @@ import SearchIcon from './search.png'
 import Approve from "./approved.png"
 import transaction from "./transaction.png"
 import pending from "./pending.png"
+import input from "./input.jpeg"
 
-export {ExitIcon, ScanIcon, CrossIcon, TickIcon, SearchIcon,Approve,transaction,pending};
+export {ExitIcon, ScanIcon, CrossIcon, TickIcon, SearchIcon,Approve,transaction,pending,input};

@@ -13,14 +13,21 @@ function OrgLogin() {
     const onSubmit = (event) => {
         event.preventDefault();
         const data = {
-            "name": name
+            "organizationId": "122d543b2c50",
+            "password":"1234567"
         }
-        axios.post("http://localhost:8000/organizations", data).then(response => {
-            localStorage.setItem('organization', JSON.stringify(response.data));
+        axios.post("http://localhost:8000/organizations/login", data).then(response => {
+            localStorage.setItem("tokenOrg",response.data.token)
+            console.log(response.data.user)
+            const orgData={
+                "name":response.data.user.name,
+                "soleid":response.data.user.organizationId
+            }
+            localStorage.setItem("organization",JSON.stringify(orgData))
             navigate('/soleid/orgMain');
         }).catch((error) => {
             console.log(error)
-            setError(error.response.data.error);
+            setError(error.response.error);
         });
         setName('');
     }

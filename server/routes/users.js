@@ -5,18 +5,18 @@ import {createUser,getUser,updateUser,deleteUser, getUserTransactions, getTransa
 const router = express.Router();
 
 // Route for CRUD on user
-router.get('/', getUser);
-router.post('/', createUser);
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
+router.post('/login', getUser);
+router.post('/register', createUser);
+router.put('/', auth, updateUser);
+router.delete('/', auth, deleteUser);
 
 // Route to view requests made to the user
-router.get('/:id/transactions', getUserTransactions);	
+router.get('/:id/transactions', auth ,getUserTransactions);	
 
 // Route to view a specific request made by the user
-router.get('/:id/transactions/:transactionId', getTransactionById);
+router.get('/:id/transactions/:transactionId', auth, getTransactionById);
 
 // Route to respond to a request made by the user
-router.put('/:id/transactions/:transactionId', respondToTransaction);
+router.put('/:id/transactions/:transactionId', auth, respondToTransaction);
 
 export default router;

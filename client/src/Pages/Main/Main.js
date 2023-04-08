@@ -10,21 +10,22 @@ function Main() {
     const [userData, setUserData] = React.useState(null);
     const [transactions, setTransactions] = React.useState([]);
     const [query,setQuery]=React.useState("")
-    
+    const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    };  
     const onDeclinedAction = async (data) => {
-       const decline=await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"rejected"})
+       const decline=await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"rejected"},config)
 
        if (userData?.userId) {
-        axios.get(`http://localhost:8000/users/${userData.userId}/transactions`)
+        axios.get(`http://localhost:8000/users/${userData.userId}/transactions`,config)
             .then(response => setTransactions(response.data));
         }
     }
 
     const onApprovedAction = async (data) => {
-
-        const approved= await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"approved"})
+        const approved= await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"approved"},config)
         if (userData?.userId) {
-            axios.get(`http://localhost:8000/users/${userData.userId}/transactions`)
+            axios.get(`http://localhost:8000/users/${userData.userId}/transactions`,config)
                 .then(response => setTransactions(response.data));
         }
     }
@@ -37,7 +38,7 @@ function Main() {
         return monthYearString// Output: "04/2023" (for example)
     }
     const expiryDate = () => {
-        const data = issuedDate(userData?.lastUpdated);
+        const data = issuedDate(userData?.expiry);
         const split = data.split("/");
         const year = parseInt(split[1]) + 1;
         return split[0] + "/" + year.toString();
@@ -54,8 +55,8 @@ function Main() {
     }, []);
 
     React.useEffect(() => {
-        if (userData?.userId) {
-            axios.get(`http://localhost:8000/users/${userData.userId}/transactions`)
+        if (userData?.userId) {           
+            axios.get(`http://localhost:8000/users/${userData.userId}/transactions`,config)
                 .then(response => setTransactions(response.data));
         }
     }, [userData?.userId]);
@@ -65,7 +66,7 @@ function Main() {
             <Navbar />
             <div className='main__body'>
                 <div className='main__card'>
-                    <div className='main__cardtitle'>Welcome, {userData?.name}  </div>
+                    <div className='main__cardtitle'>Welcome, {userData?.name.split(" ")[0]}  </div>
                     <div className='main__cardsubtitle'>Start verifying securely</div>
                     <div className='main__cardContainer'>
                         <img src={ScanIcon} alt="scanIcon" />
@@ -73,7 +74,7 @@ function Main() {
                             <div><strong>SoleID</strong></div>
                             <div>{userData?.userId?.match(/.{1,4}/g).join('-')}</div>
                             <div>EXP : {expiryDate()} </div>
-                            <div>ISSUED : {issuedDate(userData?.lastUpdated)}</div>
+                            <div>ISSUED : {issuedDate(userData?.expiry)}</div>
                         </div>
                     </div>
                     <button className='btn updatebtn'>Update Information</button>
