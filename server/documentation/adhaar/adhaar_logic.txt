@@ -1,0 +1,57 @@
+referenceId - Reference Number: – This is a composition of last 4 digits of Aadhaar number followed bytimestamp in YYYYMMDDHHMMSSmmm format.
+
+Example :
+Aadhaar Number: XXXX XXXX 3632
+Time Stamp : 20181001134543123
+Reference Number : r=”363220181001134543123”
+
+Pht - Photo: –Is present in JP2000 format with low resolution. Standard JP2 renderers can be used to show the photo.
+
+e - EmailID: – This is represented as a hash with following logic.
+
+Hashing logic for Email ID :
+Sha256(Sha256(Email+SharePhrase))*number of times last digit of Aadhaar number
+(Ref ID field contains last 4 digits).
+
+Example :
+Email: abc@gm.com
+Aadhaar Number:XXXX XXXX 3632
+Passcode : Lock@487
+Hash : Sha256(Sha256(abc@gm.comLock @487))*2
+In case of Aadhaar number ends with Zero we will hashed one time.
+
+m - Mobile Number: – This is represented as a hash with following logic.
+
+Hashing logic for Mobile Number :
+Sha256(Sha256(Mobile+SharePhrase))*number of times last digit of Aadhaar number
+(Ref ID field contains last 4 digits).
+
+Example :
+Mobile: 1234567890
+Aadhaar Number:XXXX XXXX 3632
+Passcode : Lock@487
+Hash: Sha256(Sha256(1234567890Lock@487))*2
+In case of Aadhaar number ends with Zero we will hashed one time.
+
+Signature: – This will a 344 character long digital signature of the data present in the downloaded XML.
+    This can be validated using the public key of UIDAI which will be present in standard signed xml.
+
+Steps to validate signature :
+
+1. Read the entire XML.
+
+2. Get signature from xml
+
+3. Get Certificate from here.
+
+4. If you have downloaded Offline XML before 7 June 2020. then get Certificate from here
+
+5. If you have downloaded Offline XML before 18 Jun 2019. then get Certificate from here
+
+6. If you have downloaded the client before 28 March, then get Certificate from here.
+
+7. Convert certificate to base64 string.
+
+8. Sample code snippets at :{
+	https://uidai.gov.in/en/ecosystem/authentication-devices-documents/developer-section/915-developer-section/tutorial-section.html
+}
