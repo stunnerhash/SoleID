@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 const secret = 'test';
 
 const auth = async (req, res, next) => {
-  console.log(req.headers.authorization + "hello i am");
+  console.log(req.headers.authorization);
   try {
     if (req.headers.authorization === undefined) {
       return res.json("token is required");

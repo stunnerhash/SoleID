@@ -14,7 +14,7 @@ function SearchBar(props) {
         placeholder='search for an organisation'
         onChange={handleInputChange}
       />
-      <img src={SearchIcon} className='searchimg'></img>
+      <img src={SearchIcon} className='searching'></img>
     </div>
   )
 
