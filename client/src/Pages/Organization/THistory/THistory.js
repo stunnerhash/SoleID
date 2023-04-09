@@ -55,7 +55,7 @@ function THistory() {
                     {approveData === null && <div className="tHistory__data">try clicking on an accepted transaction</div>}
                     {approveData !== null &&
                         <div className="history__wrapper">
-                            <div className="history__id">ID: {user?.userId?.match(/.{1,4}/g).join('-')}</div>
+                            <div className="history__id">Transaction ID: {user?.transactionId?.match(/.{1,4}/g).join('-')}</div>
                             <div className="history__date">Last Verified : 21 AUGUST 2023 12:30 PM IST</div>
                             {approveData.name && <div className="history_data"><strong>NAME :</strong>{approveData.name}</div>}
                             {approveData.gender && <div className="history_data"><strong>GENDER :</strong>{approveData.gender}</div>}
@@ -66,13 +66,11 @@ function THistory() {
                             {approveData.address && <div className="history_data"><strong>ADDRESS :</strong>{approveData.address}</div>}
                         </div>
                     }
-
                 </div>
-
+				
                 <div className='main__rightCard'>
                     <SearchBar />
                     <div className='main_rightScroll'>
-
                         {transactions?.map((item, index) => (
                             <OrgCard
                                 onCardClick={onCardClick}

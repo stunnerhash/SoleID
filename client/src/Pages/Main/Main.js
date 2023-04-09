@@ -44,6 +44,7 @@ function Main() {
         return split[0] + "/" + year.toString();
     }
     const handleQueryChange = (newQuery) => {
+        console.log(newQuery)
         setQuery(newQuery);
       }
     React.useEffect(() => {

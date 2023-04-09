@@ -6,47 +6,64 @@ import { useNavigate } from 'react-router-dom';
 
 
 function OrgLogin() {
-    const [name, setName] = React.useState('');
+    const [id, setId] = React.useState('');
+	const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState(null);
     const navigate = useNavigate();
 
     const onSubmit = (event) => {
         event.preventDefault();
         const data = {
-            "organizationId": "122d543b2c50",
-            "password":"1234567"
+            "organizationId": id,
+            "password":password
         }
+        console.log(data)
         axios.post("http://localhost:8000/organizations/login", data).then(response => {
-            localStorage.setItem("tokenOrg",response.data.token)
-            console.log(response.data.user)
+            localStorage.setItem("tokenOrg",response.data.token);       
             const orgData={
-                "name":response.data.user.name,
-                "soleid":response.data.user.organizationId
-            }
-            localStorage.setItem("organization",JSON.stringify(orgData))
+                "soleid":response.data.organization.organizationId,
+                "name":response.data.organization.name,
+            };
+            localStorage.setItem("tokenOrg",response.data.token);
+            localStorage.setItem("organization",JSON.stringify(orgData));
             navigate('/soleid/orgMain');
         }).catch((error) => {
             console.log(error)
             setError(error.response.error);
         });
-        setName('');
+        setId('');
+		setPassword('');
     }
+	return (
+	<div>
+		<Navbar />
+		<div className="login__user">
 
-    return (
-        <div>
-            <Navbar/>
-            {error && <div>{error}</div>}
-            <form onSubmit={onSubmit}>
-                <input
-                    type="text"
-                    placeholder='name'
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                />
-                <button type="submit">Submit</button>
+			<div className="login__headline login__organization">LOG INTO YOUR ORGANIZATION ACCOUNT</div>
+			<div className='login__line'></div>
 
-            </form>
-        </div>
+			{error && <div className='login__error'>{error}</div>}
+			<form onSubmit={onSubmit} className="login__form">
+				<input
+					type="text"
+					value={id}
+					placeholder='Enter your organization soleid'
+					onChange={(event) => setId(event.target.value)}
+				/>
+
+				<input
+					type="password"
+					placeholder='password'
+					value={password}
+					onChange={(event) => setPassword(event.target.value)}
+				/>
+
+				<button className='login__btn' type="submit">Submit</button>
+
+			</form>
+			<div className='register__adhaarxml'>Are you a user ? &nbsp; <a href="/soleid/login">Log in here</a> </div>
+		</div>
+	</div>
     )
 };
 

@@ -11,7 +11,6 @@ const filePath = './adhaarXML/adhaar.xml';
 
 export const getUser = async (req,res) => {
 	const {userId,email, password} = req.body;
-	console.log(userId,email,password+"hello")
 	try {
 		let user;
 		if (userId) {
@@ -19,8 +18,9 @@ export const getUser = async (req,res) => {
 		} else if (email) {
 			user = await User.findOne({ email });
 		}
-        if (!user) {
+		if (!user) {
 			res.status(404).json({ error: 'User not found' });
+			return;
 		}
 		if (user && user.authenticate(password)) {
 			const token = jwt.sign({ id: userId }, secret);

@@ -42,7 +42,7 @@ function Login() {
             <Navbar />
             <div className="login__user">
 
-                <div className="login__headline">LOG IN TO YOUR SOLE - ID ACCOUNT</div>
+                <div className="login__headline">LOG INTO YOUR SOLE - ID ACCOUNT</div>
                 <div className='login__line'></div>
 
                 {error && <div className='login__error'>{error}</div>}
@@ -64,8 +64,12 @@ function Login() {
                     <button className='login__btn' type="submit">Submit</button>
 
                 </form>
-                <div className='register__adhaarxml'>dont have an account ? <a href="register">sign up for free</a> </div>
-            </div>
+      			<div className='register__adhaarxml '> 
+					<a href="register">Sign up for free</a>      
+						&nbsp;or&nbsp;
+ 					<a href="/soleid/orgLogin">Log in as organization</a></div>
+         
+			   </div>
         </div>
     )
 };

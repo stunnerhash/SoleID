@@ -27,20 +27,20 @@ export const createOrganization = async (req, res) => {
 };
 export const getOrganization = async(req,res) =>{
 	const {organizationId, password} = req.body;
-	console.log(JSON.stringify(req.body))
 	try {
 		let organization;
 		if (organizationId) {
 			organization = await Organization.findOne({ organizationId });
+			console.log(organizationId,organization);
 		} 
+		if (!organization) {
+			return res.status(404).json({ error: 'Organization not found' });
+		}
 		if (organization && organization.authenticate(password)) {
 			const token = jwt.sign({ id: organizationId}, secret);
-			res.status(200).json({user:organization,token:token});
+			res.status(200).json({organization:organization,token:token});
 		} else {
 			res.status(401).json({ error: 'Wrong password' });
-		}
-		if (!organization) {
-			res.status(404).json({ error: 'Organization not found' });
 		}
 	} catch (err) {
 		console.log(err);
