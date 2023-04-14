@@ -41,9 +41,9 @@ function Card({data,isFaded, isApproved, onApprovedAction, onDeclinedAction}) {
 
             <div className='card__lower'>
                 
-                    <div><strong>REQUESTED FOR :- </strong>{dataCheck.name?"name ":""} {dataCheck.email?"email ":""} {dataCheck.phone?"phone ":""}{dataCheck.careof?"careof ":""} 
-                    {dataCheck.gender?"gender ":""}{dataCheck.dob?"dob ":""}{dataCheck.address?"address ":""}{dataCheck.adhaar?"adhaar ":""}</div>
-                    <div><strong>COMMENT :- </strong>{data.description}</div>
+                    <div><strong>REQUESTED FOR:</strong>{dataCheck.name?" name ":""} {dataCheck.email?" email ":""} {dataCheck.phone?" phone ":""}{dataCheck.careof?" careof ":""} 
+                    {dataCheck.gender?" gender ":""}{dataCheck.dob?" dob ":""}{dataCheck.address?" address ":""}{dataCheck.adhaar?"adhaar ":""}</div>
+                    <div><strong>COMMENT: </strong>{data.description}</div>
                 
 
                 {data.status === 'approved'  && <button className='approve-btn'><img src={Approve} /></button> }

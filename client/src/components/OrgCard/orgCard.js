@@ -39,14 +39,14 @@ function Card({data, onCardClick}) {
 
             <div className='card__lower'>
                 
-                    <div><strong>REQUESTED FOR :- </strong>{dataCheck.name?"name ":""} {dataCheck.email?"email ":""} {dataCheck.phone?"phone ":""}{dataCheck.careof?"careof ":""} 
-                    {dataCheck.gender?"gender ":""}{dataCheck.dob?"dob ":""}{dataCheck.address?"address ":""}{dataCheck.adhaar?"adhaar ":""}</div>
-                    <div><strong>COMMENT :- </strong>{data.description}</div>
+                    <div><strong>REQUESTED FOR: </strong>{dataCheck.name?" name ":""} {dataCheck.email?" email ":""} {dataCheck.phone?" phone ":""}{dataCheck.careof?" careof ":""} 
+                    {dataCheck.gender?" gender ":""}{dataCheck.dob?" dob ":""}{dataCheck.address?" address ":""}{dataCheck.adhaar?" adhaar ":""}</div>
+                    <div><strong>COMMENT: </strong>{data.description}</div>
                 
 
                 {data.status === 'approved'  && <button className='approve-btn'><img src={Approve} /></button> }
-                {data.status  === 'pending' && <button className='pending-btn'>pending</button>
-                }
+                {data.status  === 'pending' && <button className='pending-btn'>pending</button> }
+				{data.status === 'rejected' && <button className='rejected-btn'>rejected</button>}
             </div>
         </div>
     )

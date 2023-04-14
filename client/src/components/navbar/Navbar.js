@@ -15,7 +15,7 @@ function Navbar({isOrgProp}) {
        </div>
         }
         <div className='navbar__logo'>
-          <img src={ExitIcon} alt="exitIcon" />
+          <img src={ExitIcon} alt="exitIcon" onClick={()=> navigate('/soleid/login')}/>
         </div>
       </div>
     </div>

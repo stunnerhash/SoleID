@@ -11,7 +11,7 @@ function SearchBar(props) {
     <div className='searchbar-wrapper'>
       <input
         className='searchbar'
-        placeholder='search for an organisation'
+        placeholder='search from transactions'
         onChange={handleInputChange}
       />
       <img src={SearchIcon} className='searching'></img>

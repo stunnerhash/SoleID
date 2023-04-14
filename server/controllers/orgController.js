@@ -14,7 +14,21 @@ export const createOrganization = async (req, res) => {
     const {name, password} = req.body;
 	const newPassword=bcrypt.hashSync(password,10)
 	const organizationId = crypto.randomBytes(6).toString('hex');
-	const newOrganization = new Organization({organizationId, name, password:newPassword});
+
+	// Generate a pair of public and private keys
+	const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
+		modulusLength: 4096,
+		publicKeyEncoding: {
+			type: "spki",
+			format: "pem",
+		},
+		privateKeyEncoding: {
+			type: "pkcs8",
+			format: "pem",
+		},
+	});
+
+	const newOrganization = new Organization({organizationId, name, password:newPassword, publicKey, privateKey});
 	const token = jwt.sign({ id: organizationId }, secret);
 	try{
 		await newOrganization.save();
@@ -151,11 +165,19 @@ export const getUserResponseToTrasaction = async (req, res) => {
 		else if (transaction.status === 'pending'){
 			return res.status(400).json({message : 'Transaction is still pending'});
 		}
-
+		// find the organization
+		const organizationId = transaction.organizationId;
+		const organization = await Organization.findOne({ organizationId: organizationId});
+		if(!organization){
+			return res.status(404).json({error: 'Organization not found, cannot get public key'});
+		}	
+		const privateKey = organization.privateKey;
 		const requiredFields = {};
 		for (const [key, value] of Object.entries(transaction.fields)) {
 			if (value.isRequired) {
-				requiredFields[key] = value.value;
+				const buffer = Buffer.from(value.value, 'base64')
+				const decryptedValue = crypto.privateDecrypt(privateKey, buffer);
+				requiredFields[key] = decryptedValue.toString('utf8');
 			}
 		}
 		const requiredFieldsJSON = JSON.parse(JSON.stringify(requiredFields));

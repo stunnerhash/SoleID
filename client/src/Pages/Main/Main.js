@@ -14,7 +14,7 @@ function Main() {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     };  
     const onDeclinedAction = async (data) => {
-       const decline=await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"rejected"},config)
+       const decline = await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"rejected"},config)
 
        if (userData?.userId) {
         axios.get(`http://localhost:8000/users/${userData.userId}/transactions`,config)
@@ -23,7 +23,7 @@ function Main() {
     }
 
     const onApprovedAction = async (data) => {
-        const approved= await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"approved"},config)
+        const approved = await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"approved"},config)
         if (userData?.userId) {
             axios.get(`http://localhost:8000/users/${userData.userId}/transactions`,config)
                 .then(response => setTransactions(response.data));

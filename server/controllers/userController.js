@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import User from '../models/user.js';
 import xmlData from '../service/parseAdhaar.js';
 import jwt from 'jsonwebtoken';
+import Organization  from '../models/organization.js';
 const router = express.Router();
 const secret = 'test';
 const filePath = './adhaarXML/adhaar.xml';
@@ -159,13 +160,24 @@ export const respondToTransaction = async (req, res) => {
 		if (!transaction) {
 			return res.status(404).json({ error: 'Transaction not found' });
 		}
+
+		// get organization public key
+		const organizationId = transaction.organizationId;
+		const organization = await Organization.findOne({ organizationId: organizationId});
+		if(!organization){
+			return res.status(404).json({error: 'Organization not found, cannot get public key'});
+		}	
+		const publicKey = organization.publicKey;
+
 		// updated transaction
 		const fields = {};
 		Object.entries(user.toObject()).forEach(([key, value]) => {
 			if (transaction.fields[key] && transaction.fields[key].isRequired) {
-				fields[key] = { value, isRequired: true };
+				const encryptedValue =  crypto.publicEncrypt(publicKey, Buffer.from(value , 'utf8'));
+				fields[key] = { value:encryptedValue.toString('base64'), isRequired: true };
 			}
 		});
+		
 		// Update the transaction with the fields
 		transaction.fields = fields;
 		await transaction.save();
