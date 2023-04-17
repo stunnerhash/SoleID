@@ -10,8 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// const CONNECTION_URL = 'mongodb+srv://stunnerhash:soleid@cluster.dnxafvm.mongodb.net/?retryWrites=true&w=majority';
-const CONNECTION_URL = 'mongodb://127.0.0.1:27017/soledb';
+const CONNECTION_URL = 'mongodb+srv://stunnerhash:soleid@cluster.dnxafvm.mongodb.net/?retryWrites=true&w=majority';
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to database'))

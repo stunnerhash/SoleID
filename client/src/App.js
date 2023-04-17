@@ -1,4 +1,3 @@
-import './App.css';
 import { Main,Login,OrgLogin,OrgMain,THistory,Register,Utility} from './Pages';
 
 import {Routes, Route} from 'react-router-dom'
