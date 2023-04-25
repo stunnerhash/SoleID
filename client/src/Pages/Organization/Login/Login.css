@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
+
+.login__user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 500px;
+    font-family: 'Inter', sans-serif;
+}
+
+.login__headline {
+    width: 371px;
+    height: 23px;
+    color: #000000;
+    font-weight: 700;
+    font-size: 20px;
+  	margin-bottom: 20px; 
+
+}
+
+.login__line {
+    width: 159px;
+    height: 0px;
+    border: 1px solid #000000;
+    margin-top: 15px;
+}
+
+.login__form {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login__form input {
+    width: 320px;
+    height: 35px;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.login__form input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+   text-align: center;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+.login__btn {
+    width: 340px;
+    height: 45px;
+
+    background: #0066FF;
+    border: 1px solid #0066FF;
+    border-radius: 30px;
+    margin: 10px;
+}
+.login__organization{
+    height:50px;
+}

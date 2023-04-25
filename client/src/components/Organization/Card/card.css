@@ -1,0 +1,32 @@
+.approved-btn{
+    border: none;
+    outline: none;
+    padding: 10px;
+    background: rgba(70, 179, 32, 0.1);
+    border: 1px solid #46B320;
+	color:#46B320;
+	font-weight: bold;
+	font-size: 12px;
+    border-radius: 5px;
+    align-self: flex-end;
+}
+.pending-btn{
+    border: none;
+    outline: none;
+    padding: 10px;
+    background: rgba(247, 184, 62, 0.1);
+    border: 1px solid #F6B83E;
+    color: #F6B83E;
+    border-radius: 5px;
+    align-self: flex-end;
+}
+.rejected-btn{
+	border: none;
+    outline: none;
+    padding: 10px;
+    background: rgba(247, 184, 62, 0.1);
+    border: 1px solid red;
+    color: red;
+    border-radius: 5px;
+    align-self: flex-end;
+}
