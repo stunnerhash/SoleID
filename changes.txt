@@ -1,1 +1,7 @@
+create a landing page
 changes needed 
+card font 
+date,
+timestamp converter
+search problems in org search
+organization transactions screen replace 'try clicking on an accepted transaction' with something better

@@ -41,7 +41,7 @@ function Main() {
     const handleQueryChange = (newQuery) => {
         console.log(newQuery)
         setQuery(newQuery);
-      }
+	}
     React.useEffect(() => {
         const getLocalData = () => {
             const data = JSON.parse(localStorage.getItem('user'));
@@ -79,7 +79,9 @@ function Main() {
                 <div className='main__rightCard'>
                     <UserSearch onQueryChange={handleQueryChange}/>
                     <div className='main_rightScroll'>
-                        {transactions?.filter((transaction)=> transaction.organizationName.includes(query.toUpperCase())).map((item, index) => (
+                        {transactions?.filter((transaction)=> 
+							transaction.organizationName.includes(query.toUpperCase()))
+							.map((item, index) => (
                             <UserCard
                                 key={index}
                                 data={item}

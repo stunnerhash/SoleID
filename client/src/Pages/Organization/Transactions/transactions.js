@@ -9,6 +9,11 @@ function Transactions() {
 	const [err, setErr] = useState("try clicking on an accepted transaction");
     const [approveData, setApproveData] = useState(null);
     const [user, setUser] = useState(null);
+	const [query,setQuery] = useState("");
+
+	const handleQueryChange = (newQuery)=>{
+		setQuery(newQuery);
+	}
     const onCardClick = (data) => {
         if (data == null) {
             setApproveData(null);
@@ -26,6 +31,7 @@ function Transactions() {
 			}
 		})
     }
+
     React.useEffect(() => {
         const getLocalData = () => {
             const data = JSON.parse(localStorage.getItem('organization'));
@@ -63,15 +69,18 @@ function Transactions() {
                     }
                 </div>
                 <div className='main__rightCard'>
-                    <OrganizationSearch/>
+                    <OrganizationSearch onQueryChange = {handleQueryChange}/>
                     <div className='main_rightScroll'>
-                        {transactions?.map((item, index) => (
-                            <OrganizationCard
-                                onCardClick={onCardClick}
-                                key={index}
-                                data={item}
-                            />
-                        ))}
+						{transactions ?.filter((transaction) =>
+							transaction.userId.includes(query.toLowerCase()))
+							.map((item, index) => (
+							<OrganizationCard
+								onCardClick={onCardClick}
+								key={index}
+								data={item}
+							/>
+						))}
+
                     </div>
                 </div>
             </div>

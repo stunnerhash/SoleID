@@ -1,6 +1,6 @@
 import React from 'react';
-import './search.css';
 import {SearchIcon} from '../../../assets';
+import './search.css';
 
 function Search(props) {
   const handleInputChange = (event) => {

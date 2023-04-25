@@ -1,4 +1,4 @@
-// import LandingPage from './LandingPage/landingPage';
+import LandingPage from './LandingPage/landingPage';
 
 import OrganizationLogin from "./Organization/Login/login"
 import OrganizationMain from "./Organization/Main/main"
@@ -9,4 +9,4 @@ import UserLogin from "./User/Login/login"
 import UserRegister from "./User/Register/register";
 import SetPassword from "./User/SetPassword/setPassword";
 
-export {OrganizationLogin,OrganizationMain,OrganizationTransactions,UserLogin,UserRegister,UserMain,SetPassword};
+export {LandingPage,OrganizationLogin,OrganizationMain,OrganizationTransactions,UserLogin,UserRegister,UserMain,SetPassword};
