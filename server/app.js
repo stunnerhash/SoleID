@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose'
 import cors from 'cors';
 import userRoutes from './routes/users.js';
-import transactionRoutes from './routes/transactions.js'
 import orgRoutes from './routes/organizations.js';
 
 const app = express();
@@ -18,7 +17,6 @@ mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: tr
 
 // Set up the endpoints
 app.use('/users', userRoutes);
-app.use('/transactions', transactionRoutes);
 app.use('/organizations', orgRoutes);
 
 // Start the server
