@@ -1,23 +1,20 @@
 import React, { useState } from 'react'
-import { Navbar } from '../../components'
-import { ScanIcon } from '../../assets'
-import './utility.css'
+import { Navbar } from '../../../components'
+import { ScanIcon } from '../../../assets'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-function Utility() {
+import {updateUser} from '../../../api'
+import './setPassword.css'
+
+function SetPassword() {
     const navigate = useNavigate();
     const [error, setError] = useState(null)
     const [password,setPassword]=useState('')
-    const [userData, setUserData] = React.useState(null);
-    const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    };  
+    const [userData, setUserData] = React.useState(null); 
     const formSubmit = (e) => {
         e.preventDefault();
         console.log("called")
-
-        axios.put("http://localhost:8000/users",{"password":password},config).then(response => {
-            navigate('/soleid/home');
+		updateUser({"password":password}).then(response => {
+            navigate('/user');
         }).catch((error) => {
             console.log(error)
             setError(error.response.data.error);
@@ -31,7 +28,7 @@ function Utility() {
         const month = date.getMonth() + 1; // Get month (returns 0-11, so add 1)
         const year = date.getFullYear(); // Get year
         const monthYearString = month.toString().padStart(2, '0') + '/' + year.toString(); // Format as "MM/YYYY"
-        return monthYearString// Output: "04/2023" (for example)
+        return monthYearString; // Output: "04/2023" (for example)
     }
     const expiryDate = () => {
         const data = issuedDate(userData?.expiry);
@@ -76,4 +73,4 @@ function Utility() {
     )
 }
 
-export default Utility
+export default SetPassword;

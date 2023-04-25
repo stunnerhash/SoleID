@@ -1,8 +1,12 @@
-import Main from "./Main/Main";
-import Login from "./Login/Login"
-import OrgLogin from "./Organization/Login/Login"
-import OrgMain from "./Organization/Main/Main"
-import THistory from "./Organization/THistory/THistory";
-import Register from "./Register/register";
-import Utility from "./Utility/utility";
-export { Main,Login,OrgLogin,OrgMain,THistory,Register,Utility};
+import LandingPage from './LandingPage/landingPage';
+
+import OrganizationLogin from "./Organization/Login/login"
+import OrganizationMain from "./Organization/Main/main"
+import OrganizationTransactions from "./Organization/Transactions/transactions";
+
+import UserMain from "./User/Main/main";
+import UserLogin from "./User/Login/login"
+import UserRegister from "./User/Register/register";
+import SetPassword from "./User/SetPassword/setPassword";
+
+export {LandingPage, OrganizationLogin,OrganizationMain,OrganizationTransactions,UserLogin,UserRegister,UserMain,SetPassword};

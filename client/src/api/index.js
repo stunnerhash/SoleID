@@ -1,24 +1,28 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:5000' });
-
+const API = axios.create({ baseURL: 'http://localhost:8000' });
 API.interceptors.request.use((req) => {
-  if (localStorage.getItem('profile')) {
-    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
-  }
-
-  return req;
+	const userToken = localStorage.getItem('userToken');
+	const organizationToken = localStorage.getItem('organizationToken');
+	if (userToken && req.url.startsWith('/users')) {
+		req.headers.Authorization = `Bearer ${userToken}`;
+	} else if (organizationToken && req.url.startsWith('/organizations')) {
+		req.headers.Authorization = `Bearer ${organizationToken}`;
+	}
+	return req;
 });
 
-export const fetchPost = (id) => API.get(`/posts/${id}`);
-export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
-export const fetchPostsByCreator = (name) => API.get(`/posts/creator?name=${name}`);
-export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
-export const createPost = (newPost) => API.post('/posts', newPost);
-export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
-export const comment = (value, id) => API.post(`/posts/${id}/commentPost`, { value });
-export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
-export const deletePost = (id) => API.delete(`/posts/${id}`);
+// user routes
+export const createUser = () => API.post('/users/register');
+export const getUser = (formData) => API.post('/users/login', formData);
+export const updateUser = (updateData) => API.put('/users',updateData)
+export const deleteUser = () => API.delete('/users')
+export const getUserTransactions = () => API.get('/users/transactions');
+export const getTransactionsById = (transactionId) => API.get(`/users/transactions/${transactionId}`);
+export const respondToTransaction = (transactionId, status) => API.put(`/users/transactions/${transactionId}`,status);
 
-export const signIn = (formData) => API.post('/user/signin', formData);
-export const signUp = (formData) => API.post('/user/signup', formData);
+// organization routes
+export const getOrganization = (formData) => API.post('/organizations/login', formData);
+export const getTransactionsByOrganization = () => API.get('/organizations/transactions');
+export const makeTransactionToUser = (newTransaction) => API.post('/organizations/transactions', newTransaction);
+export const getUserResponseToTrasaction = (transactionId) => API.get(`/organizations/transactions/${transactionId}`);

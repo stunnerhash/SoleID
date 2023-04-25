@@ -1,8 +1,8 @@
 import React from 'react';
-import axios from 'axios';
-import { Navbar } from '../../components';
+import { Navbar } from '../../../components';
 import { useNavigate } from 'react-router-dom';
-import "./Login.css"
+import {getUser} from '../../../api'
+import "./login.css"
 
 function Login() {
     const [userId, setUserId] = React.useState('');
@@ -16,17 +16,16 @@ function Login() {
             "userId": userId,
             "password": password
         }
-        axios.post("http://localhost:8000/users/login", data).then(response => {
+		getUser(data).then(response => {
             
             const data={
                 "userId":response.data.user.userId,
                 "name":response.data.user.name,
                 "expiry":response.data.user.lastUpdated
             }
-            console.log(response.data.user)
-            localStorage.setItem("token",response.data.token)
+            localStorage.setItem("userToken",response.data.token)
             localStorage.setItem("user",JSON.stringify(data))
-            navigate('/soleid/home');
+            navigate('/user');
         }).catch((error) => {
             console.log(error)
             setError(error.response.data.error);
@@ -35,8 +34,6 @@ function Login() {
         setUserId('');
         setPassword('');
     }
-
-
     return (
         <div>
             <Navbar />
@@ -67,7 +64,7 @@ function Login() {
       			<div className='register__adhaarxml '> 
 					<a href="register">Sign up for free</a>      
 						&nbsp;or&nbsp;
- 					<a href="/soleid/orgLogin">Log in as organization</a></div>
+ 					<a href="/organization/login">Log in as organization</a></div>
          
 			   </div>
         </div>

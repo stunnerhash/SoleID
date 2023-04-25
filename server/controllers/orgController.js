@@ -45,7 +45,6 @@ export const getOrganization = async(req,res) =>{
 		let organization;
 		if (organizationId) {
 			organization = await Organization.findOne({ organizationId });
-			console.log(organizationId,organization);
 		} 
 		if (!organization) {
 			return res.status(404).json({ error: 'Organization not found' });
@@ -73,13 +72,11 @@ export const getOrganizationPublicKey = async(req,res) => {
 		res.json({ publicKey: organization.publicKey });
 	}
 	catch(err){
-		console.log()
 		res.status(500).json({error: 'Failed to get organization public key'});
 	}
 };
 
-export const getTransactionByOrganization= async (req, res) => {
-	// const organizationId = req.params.id;
+export const getTransactionsByOrganization= async (req, res) => {
 	const organizationId = req.id;
 	try{
 		const transactions = await Transaction.find({ organizationId: organizationId});
@@ -113,8 +110,8 @@ export const makeTransactionToUser = async(req,res) =>{
 	try{
 		// const organizationId = req.params.id;
 		const organizationId = req.id;
-
 		const {userId, fields, description} = req.body;
+		
 		// transactionId is set
 		const transactionId = crypto.randomBytes(8).toString('hex');
 		const latestTransaction = await Transaction.find().limit(1).sort({'lastUpdated':-1});
@@ -125,24 +122,18 @@ export const makeTransactionToUser = async(req,res) =>{
 			: "this is soleid's genesis block";
 
 		const timeStamp = (new Date()).getTime();
-		// Find the organization making the transaction and add ref to transaction 
 		const organization = await Organization.findOne({ organizationId: organizationId});
 		if (!organization) {
 			return res.status(404).json({ message: 'Organization not found' });
-		}// organization.transactions.push(transactionId);
-		// await organization.save();
+		}
 		
-		// Find the user to whom the transaction is being made and add ref to transaction
 		const user = await User.findOne({userId:userId});
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
-		}// user.transactions.push(transactionId);
-		// await user.save();
-		
+		}
 		const newTransaction = new Transaction({timeStamp, transactionId, organizationName:organization.name, organizationId, userId , fields, description,hashCode});
 		await newTransaction.save();
 		
-		// new request object is created
 		return res.status(201).json(newTransaction);
 	}
 	catch (error) {
@@ -151,42 +142,41 @@ export const makeTransactionToUser = async(req,res) =>{
 	}
 };
 
-export const getUserResponseToTrasaction = async (req, res) => {
-	try {
-		const { transactionId } = req.params;
-		const transaction = await Transaction.findOne({transactionId:transactionId});
-		console.log(transaction);
-		if (!transaction) {
-			return res.status(404).json({ message: 'Transaction not found' });
-		}
-		if (transaction.status  === 'rejected') {
-			return res.status(400).json({ message: 'Transaction request was rejected by user' });
-		}
-		else if (transaction.status === 'pending'){
-			return res.status(400).json({message : 'Transaction is still pending'});
-		}
-		// find the organization
-		const organizationId = transaction.organizationId;
-		const organization = await Organization.findOne({ organizationId: organizationId});
-		if(!organization){
-			return res.status(404).json({error: 'Organization not found, cannot get public key'});
-		}	
-		const privateKey = organization.privateKey;
-		const requiredFields = {};
-		for (const [key, value] of Object.entries(transaction.fields)) {
-			if (value.isRequired) {
-				const buffer = Buffer.from(value.value, 'base64')
-				const decryptedValue = crypto.privateDecrypt(privateKey, buffer);
-				requiredFields[key] = decryptedValue.toString('utf8');
+	export const getUserResponseToTrasaction = async (req, res) => {
+		try {
+			const { transactionId } = req.params;
+			const transaction = await Transaction.findOne({transactionId:transactionId});
+			if (!transaction) {
+				return res.status(404).json({ message: 'Transaction not found' });
 			}
+			if (transaction.status  === 'rejected') {
+				return res.status(400).json({ message: 'Transaction request was rejected by user' });
+			}
+			else if (transaction.status === 'pending'){
+				return res.status(400).json({message : 'Transaction is still pending'});
+			}
+			// find the organization
+			const organizationId = transaction.organizationId;
+			const organization = await Organization.findOne({ organizationId: organizationId});
+			if(!organization){
+				return res.status(404).json({error: 'Organization not found, cannot get public key'});
+			}	
+			const privateKey = organization.privateKey;
+			const requiredFields = {};
+			for (const [key, value] of Object.entries(transaction.fields)) {
+				if (value.isRequired) {
+					const buffer = Buffer.from(value.value, 'base64')
+					const decryptedValue = crypto.privateDecrypt(privateKey, buffer);
+					requiredFields[key] = decryptedValue.toString('utf8');
+				}
+			}
+			const requiredFieldsJSON = JSON.parse(JSON.stringify(requiredFields));
+			return res.status(200).json(requiredFieldsJSON);
+		} 
+		catch (error) {
+			console.error(error);
+			return res.status(500).json({ message: 'Internal server error' });
 		}
-		const requiredFieldsJSON = JSON.parse(JSON.stringify(requiredFields));
-		return res.status(200).json(requiredFieldsJSON);
-	} 
-	catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: 'Internal server error' });
-	}
-};
+	};
 
 export default router;

@@ -5,7 +5,7 @@ const secret = 'test';
 const auth = async (req, res, next) => {
   try {
     if (req.headers.authorization === undefined) {
-      return res.json("token is required");
+      	return res.json("token is required");
     }
     const token = req.headers.authorization.split(" ")[1];
     const isCustomAuth = token.length < 500;

@@ -1,7 +1,9 @@
-import Card from "./card/Card";
-import Image from "./image/Image";
-import Navbar from "./navbar/Navbar";
-import SearchBar from "./searchBar/SearchBar";
-import OrgCard from "./OrgCard/orgCard"
+import Navbar from "./Shared/Navbar/navbar";
 
-export {Card, Image, Navbar, SearchBar,OrgCard};
+import UserSearch from "./User/Search/search";
+import UserCard from "./User/Card/card";
+
+import OrganizationCard from "./Organization/Card/card"
+import OrganizationSearch from "./Organization/Search/search";
+
+export { UserCard, Navbar, UserSearch, OrganizationSearch, OrganizationCard };

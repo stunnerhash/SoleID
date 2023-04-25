@@ -1,7 +1,6 @@
 import React from 'react';
-import { CrossIcon, TickIcon } from '../../assets';
+import { CrossIcon, TickIcon } from '../../../assets';
 import './card.css';
-import { Approve } from '../../assets';
 
 
 function Card({data,isFaded, isApproved, onApprovedAction, onDeclinedAction}) {
@@ -46,12 +45,14 @@ function Card({data,isFaded, isApproved, onApprovedAction, onDeclinedAction}) {
                     <div><strong>COMMENT: </strong>{data.description}</div>
                 
 
-                {data.status === 'approved'  && <button className='approve-btn'><img src={Approve} /></button> }
+                {data.status === 'approved'  && <button className='approved-btn'>Approved</button> }
                 {data.status  === 'pending' &&  <div className='card__lowerbtn'>
                         <button><img src={TickIcon} alt="tickIcon" onClick={() => onClickTick()}/></button>
                         <button><img src={CrossIcon} alt="crossIcon" onClick={() => onClickCross()}/></button>
                     </div>
-                }
+                }                
+				{data.status === 'rejected'  && <button className='rejected-btn'>Rejected</button> }
+
             </div>
         </div>
     )

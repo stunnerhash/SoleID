@@ -1,19 +1,15 @@
 import React from 'react';
-import './Main.css';
-import axios from 'axios';
 import { Navbar } from '../../../components';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { makeTransactionToUser } from '../../../api';
+import './main.css';
 
-function OrgMain() {
+function Main() {
     const [name, setName] = React.useState('');
     const [comment, setComment] = React.useState('')
     const [orgData, setOrgData] = React.useState('');
     const [res,setRes]=useState("")
 
-    const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem('tokenOrg')}` }
-    };  
     const [checkboxValues, setCheckboxValues] = useState({
         checkbox1: false,
         checkbox2: false,
@@ -56,8 +52,8 @@ function OrgMain() {
                 }
             }
         }
-        console.log(JSON.stringify(data))
-        axios.post(`http://localhost:8000/organizations/${orgData?.organizationId}/transactions`, data, config).then(response => {
+		makeTransactionToUser(data)
+		.then(response => {
             setRes("Request sent successfully")
         }).catch((error) => {
             setRes("error sending the request")
@@ -76,7 +72,6 @@ function OrgMain() {
     }
     function handleCheckboxChange(event) {
         const { name, checked } = event.target;
-        console.log(name)
         setCheckboxValues(prevState => ({
             ...prevState,
             [name]: checked
@@ -98,7 +93,7 @@ function OrgMain() {
                 <div className='org__id'>ID:{orgData?.soleid?.match(/.{1,4}/g).join('-')}</div>
                
               <div className='org__wrapper' >
-                {res==""? <form className='org__form' onSubmit={onSubmit}>
+                {res===""? <form className='org__form' onSubmit={onSubmit}>
                         <input className='org__input' type="text" placeholder='Enter a valid soleId number*' value={name}
                             onChange={(event) => setName(event.target.value)} />
                         <input className='org__input' type="text" placeholder='Enter a comment*' value={comment}
@@ -180,4 +175,4 @@ function OrgMain() {
     )
 };
 
-export default OrgMain;
+export default Main;

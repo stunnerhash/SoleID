@@ -1,8 +1,9 @@
 import React, { useState,useRef } from 'react'
-import { Navbar } from '../../components'
-import './register.css'
+import { Navbar } from '../../../components'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import {createUser} from '../../../api'
+import './register.css'
+
 function Register() {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
@@ -11,22 +12,19 @@ function Register() {
 
     const formSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8000/users/register").then(response => {
-
+        createUser().then(response => {
             const data = {
                 "userId": response.data.user.userId,
                 "name": response.data.user.name,
                 "expiry": response.data.user.lastUpdated
             }
-            console.log(response.data.user)
-            localStorage.setItem("token", response.data.token)
+            localStorage.setItem("userToken", response.data.token)
             localStorage.setItem("user", JSON.stringify(data))
-            navigate('/soleid/setPassword');
+            navigate('/user/setPassword');
         }).catch((error) => {
             console.log(error)
             setError(error.response.data.error);
-        });
-       
+        });  
     }
 
     const handleFileSelect = (event) => {

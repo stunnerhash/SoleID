@@ -1,58 +1,53 @@
-import React, { useState } from "react"
-import { Navbar, SearchBar, OrgCard } from "../../../components"
-import "./THistory.css"
-import axios from "axios"
+import React, { useState } from "react";
+import { Navbar, OrganizationSearch, OrganizationCard } from "../../../components";
+import {getUserResponseToTrasaction, getTransactionsByOrganization} from '../../../api';
+import "./transactions.css"
 
-function THistory() {
-    const isOrg = true
+function Transactions() {
     const [transactions, setTransactions] = useState([]);
     const [data, setData] = useState("");
+	const [err, setErr] = useState("try clicking on an accepted transaction");
     const [approveData, setApproveData] = useState(null);
-    const [user, setUser] = useState(null)
-
-    const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem('tokenOrg')}` }
-    };
+    const [user, setUser] = useState(null);
     const onCardClick = (data) => {
         if (data == null) {
             setApproveData(null);
             return;
         }
-        //api calling and display
-        console.log(data)
         setUser(data)
-        axios.get(`http://localhost:8000/organizations/${data?.soleid}/transactions/${data?.transactionId}`, config)
-            .then(res => { setApproveData(res.data); })
-            .catch(err => console.log(err))
-
+		getUserResponseToTrasaction(data?.transactionId	)
+		.then(res => setApproveData(res.data))
+		.catch(err => {
+			console.log(err);
+			if (err.response && err.response.data) {
+				setErr(err.response.data.message);
+			} else {
+				setErr('Internal server error');
+			}
+		})
     }
-
-
     React.useEffect(() => {
         const getLocalData = () => {
             const data = JSON.parse(localStorage.getItem('organization'));
-            console.log(data)
             setData(data);
         };
         getLocalData();
     }, []);
-
     React.useEffect(() => {
         if (data?.soleid) {
-            axios.get(`http://localhost:8000/organizations/${data?.soleid}/transactions`, config)
-                .then(res => { console.log(transactions); setTransactions(res.data) })
+			getTransactionsByOrganization()
+                .then(res => { setTransactions(res.data) })
                 .catch(err => console.log(err))
         }
-
     }, [data?.soleid]);
 
     return (
         <div>
-            <Navbar isOrgProp={isOrg} />
+            <Navbar isOrgProp={true} />
             <div className='main__body'>
                 <div className='main__card'>
-                    <div className="thistory__view">View Transactions</div>
-                    {approveData === null && <div className="tHistory__data">try clicking on an accepted transaction</div>}
+                    <div className="transactions__view">View transaction data</div>
+                    {approveData === null && <div className="transactions__data">{err}</div>}
                     {approveData !== null &&
                         <div className="history__wrapper">
                             <div className="history__id">Transaction ID: {user?.transactionId?.match(/.{1,4}/g).join('-')}</div>
@@ -67,12 +62,11 @@ function THistory() {
                         </div>
                     }
                 </div>
-				
                 <div className='main__rightCard'>
-                    <SearchBar />
+                    <OrganizationSearch/>
                     <div className='main_rightScroll'>
                         {transactions?.map((item, index) => (
-                            <OrgCard
+                            <OrganizationCard
                                 onCardClick={onCardClick}
                                 key={index}
                                 data={item}
@@ -84,4 +78,4 @@ function THistory() {
         </div>
     )
 }
-export default THistory
+export default Transactions; 

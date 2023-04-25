@@ -77,7 +77,6 @@ export const updateUser = async (req, res) => {
 			{ $set: update },
 			{ new: true } // return the updated document
 		);
-		console.log(updatedUser);
 		if (!updatedUser) {
 			res.status(404).json({ error: 'User not found' });
 			return;

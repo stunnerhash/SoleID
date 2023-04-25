@@ -1,1 +1,0 @@
-utility functions such as creating random IDs or encrypting and decrypting data

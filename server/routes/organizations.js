@@ -1,5 +1,5 @@
 import express from 'express';
-import { createOrganization,getOrganizationPublicKey,getTransactionByOrganization,makeTransactionToUser ,getUserResponseToTrasaction, getOrganization} from '../controllers/orgController.js';
+import { createOrganization,getOrganizationPublicKey,getTransactionsByOrganization,makeTransactionToUser ,getUserResponseToTrasaction, getOrganization} from '../controllers/orgController.js';
 import auth from '../middleware/auth.js';
 const router = express.Router();
 
@@ -8,15 +8,15 @@ router.post('/register', createOrganization);
 router.post('/login', getOrganization);
 
 // Route to get an organization's public key by ID
-router.get('/:id/public-key',auth, getOrganizationPublicKey);
+router.get('/public-key',auth, getOrganizationPublicKey);
 
 // Route to view requests made by organization
-router.get('/:id/transactions',auth, getTransactionByOrganization);
+router.get('/transactions',auth, getTransactionsByOrganization);
 
 // Route to make requests to user by organization
-router.post('/:id/transactions',auth, makeTransactionToUser);
+router.post('/transactions',auth, makeTransactionToUser);
 
 // Route to getUserResponseToRequest
-router.get('/:id/transactions/:transactionId',auth, getUserResponseToTrasaction);
+router.get('/transactions/:transactionId',auth, getUserResponseToTrasaction);
 
 export default router;

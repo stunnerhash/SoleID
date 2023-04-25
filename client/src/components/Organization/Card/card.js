@@ -1,7 +1,5 @@
 import React from 'react';
-import './orgCard.css';
-import { Approve ,pending} from '../../assets';
-
+import './card.css';
 
 function Card({data, onCardClick}) {
     const dataCheck={
@@ -44,7 +42,7 @@ function Card({data, onCardClick}) {
                     <div><strong>COMMENT: </strong>{data.description}</div>
                 
 
-                {data.status === 'approved'  && <button className='approve-btn'><img src={Approve} /></button> }
+                {data.status === 'approved'  && <button className='approved-btn'>Approved</button> }
                 {data.status  === 'pending' && <button className='pending-btn'>pending</button> }
 				{data.status === 'rejected' && <button className='rejected-btn'>rejected</button>}
             </div>

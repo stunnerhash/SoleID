@@ -1,8 +1,8 @@
 import React from 'react';
-import './searchbar.css';
-import { ScanIcon, SearchIcon } from '../../assets';
+import './search.css';
+import {SearchIcon} from '../../../assets';
 
-function SearchBar(props) {
+function Search(props) {
   const handleInputChange = (event) => {
     const newQuery = event.target.value;
     props.onQueryChange(newQuery);
@@ -14,10 +14,10 @@ function SearchBar(props) {
         placeholder='search from transactions'
         onChange={handleInputChange}
       />
-      <img src={SearchIcon} className='searching'></img>
+      <img src={SearchIcon} alt='search' className='searching'></img>
     </div>
   )
 
 }
 
-export default SearchBar
+export default Search;

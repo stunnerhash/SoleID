@@ -1,4 +1,4 @@
-.thistory__view {
+.transactions__view {
     width: 429px;
     height: 39px;
     font-family: 'Inter';
@@ -9,11 +9,10 @@
     display: flex;
     align-items: center;
     color: #000000;
-    text-decoration: underline;
     margin-top: 20px;
 }
 
-.tHistory__data {
+.transactions__data {
     width: 273px;
     height: 31px;
     font-family: 'Inter';

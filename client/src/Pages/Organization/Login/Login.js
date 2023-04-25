@@ -1,11 +1,10 @@
 import React from 'react';
-import './Login.css';
-import axios from 'axios';
 import { Navbar } from '../../../components';
 import { useNavigate } from 'react-router-dom';
+import { getOrganization } from '../../../api';
+import './login.css';
 
-
-function OrgLogin() {
+function Login() {
     const [id, setId] = React.useState('');
 	const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState(null);
@@ -17,16 +16,15 @@ function OrgLogin() {
             "organizationId": id,
             "password":password
         }
-        console.log(data)
-        axios.post("http://localhost:8000/organizations/login", data).then(response => {
-            localStorage.setItem("tokenOrg",response.data.token);       
-            const orgData={
-                "soleid":response.data.organization.organizationId,
+		getOrganization(data)
+		.then(response => {
+			const orgData={
+				"soleid":response.data.organization.organizationId,
                 "name":response.data.organization.name,
             };
-            localStorage.setItem("tokenOrg",response.data.token);
+			localStorage.setItem("organizationToken",response.data.token);       
             localStorage.setItem("organization",JSON.stringify(orgData));
-            navigate('/soleid/orgMain');
+            navigate('/organization');
         }).catch((error) => {
             console.log(error)
             setError(error.response.error);
@@ -61,10 +59,10 @@ function OrgLogin() {
 				<button className='login__btn' type="submit">Submit</button>
 
 			</form>
-			<div className='register__adhaarxml'>Are you a user ? &nbsp; <a href="/soleid/login">Log in here</a> </div>
+			<div className='register__adhaarxml'>Are you a user ? &nbsp; <a href="/user/login">Log in here</a> </div>
 		</div>
 	</div>
     )
 };
 
-export default OrgLogin;
+export default Login;

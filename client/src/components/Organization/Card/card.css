@@ -1,3 +1,15 @@
+.approved-btn{
+    border: none;
+    outline: none;
+    padding: 10px;
+    background: rgba(70, 179, 32, 0.1);
+    border: 1px solid #46B320;
+	color:#46B320;
+	font-weight: bold;
+	font-size: 12px;
+    border-radius: 5px;
+    align-self: flex-end;
+}
 .pending-btn{
     border: none;
     outline: none;

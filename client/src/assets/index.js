@@ -3,9 +3,7 @@ import ScanIcon from './scan.png';
 import CrossIcon from './cross.png';
 import TickIcon from './tick.png';
 import SearchIcon from './search.png'
-import Approve from "./approved.png"
 import transaction from "./transaction.png"
-import pending from "./pending.png"
 import input from "./input.jpeg"
 
-export {ExitIcon, ScanIcon, CrossIcon, TickIcon, SearchIcon,Approve,transaction,pending,input};
+export { ExitIcon, ScanIcon, CrossIcon, TickIcon, SearchIcon, transaction, input };

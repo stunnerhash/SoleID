@@ -1,32 +1,26 @@
 import React from 'react';
-import { ScanIcon } from '../../assets';
-import { Card, Navbar, SearchBar } from '../../components';
-import './main.css';
-import axios from 'axios';
+import { ScanIcon } from '../../../assets';
+import { UserCard, Navbar, UserSearch } from '../../../components';
+import {getUserTransactions,respondToTransaction} from '../../../api'
 
+import './main.css';
 
 function Main() {
-    
     const [userData, setUserData] = React.useState(null);
     const [transactions, setTransactions] = React.useState([]);
     const [query,setQuery]=React.useState("")
-    const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    };  
     const onDeclinedAction = async (data) => {
-       const decline = await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"rejected"},config)
-
-       if (userData?.userId) {
-        axios.get(`http://localhost:8000/users/${userData.userId}/transactions`,config)
-            .then(response => setTransactions(response.data));
+		const status = {"status":"rejected"};
+		await respondToTransaction(data.transactionId,status);
+		if (userData?.userId) {
+			getUserTransactions().then(response => setTransactions(response.data));
         }
     }
-
     const onApprovedAction = async (data) => {
-        const approved = await axios.put(`http://localhost:8000/users/${data.userId}/transactions/${data.transactionId}`,{"status":"approved"},config)
+		const status = { "status" : "approved" };
+		await respondToTransaction(data.transactionId,status);
         if (userData?.userId) {
-            axios.get(`http://localhost:8000/users/${userData.userId}/transactions`,config)
-                .then(response => setTransactions(response.data));
+			getUserTransactions().then(response => setTransactions(response.data));
         }
     }
 
@@ -35,8 +29,9 @@ function Main() {
         const month = date.getMonth() + 1; // Get month (returns 0-11, so add 1)
         const year = date.getFullYear(); // Get year
         const monthYearString = month.toString().padStart(2, '0') + '/' + year.toString(); // Format as "MM/YYYY"
-        return monthYearString// Output: "04/2023" (for example)
+        return monthYearString;// Output: "04/2023" (for example)
     }
+
     const expiryDate = () => {
         const data = issuedDate(userData?.expiry);
         const split = data.split("/");
@@ -56,9 +51,8 @@ function Main() {
     }, []);
 
     React.useEffect(() => {
-        if (userData?.userId) {           
-            axios.get(`http://localhost:8000/users/${userData.userId}/transactions`,config)
-                .then(response => setTransactions(response.data));
+        if (userData?.userId) {   
+			getUserTransactions().then(response => setTransactions(response.data));
         }
     }, [userData?.userId]);
     
@@ -83,14 +77,12 @@ function Main() {
                 </div>
 
                 <div className='main__rightCard'>
-                    <SearchBar onQueryChange={handleQueryChange}/>
+                    <UserSearch onQueryChange={handleQueryChange}/>
                     <div className='main_rightScroll'>
                         {transactions?.filter((transaction)=> transaction.organizationName.includes(query.toUpperCase())).map((item, index) => (
-                            <Card
+                            <UserCard
                                 key={index}
                                 data={item}
-                                // isApproved={item.isApproved}
-                                // isFaded={item.isFaded}
                                 onApprovedAction={onApprovedAction}
                                 onDeclinedAction ={onDeclinedAction}
                             />
