@@ -89,15 +89,18 @@ function Main() {
         <div>
             <Navbar isOrgProp={isOrg} />
             <div className='org__main'>
-                <div className='org__clg'>{orgData?.name}</div>
-                <div className='org__id'>ID:{orgData?.soleid?.match(/.{1,4}/g).join('-')}</div>
-               
+                <div className='org__clg'> {orgData?.name} </div>
+                <div className='org__id'>ID: {orgData?.soleid?.match(/.{1,4}/g).join('-')} </div>
               <div className='org__wrapper' >
-                {res===""? <form className='org__form' onSubmit={onSubmit}>
-                        <input className='org__input' type="text" placeholder='Enter a valid soleId number*' value={name}
-                            onChange={(event) => setName(event.target.value)} />
-                        <input className='org__input' type="text" placeholder='Enter a comment*' value={comment}
-                            onChange={(event) => setComment(event.target.value)} />
+                {
+					res === ""? 
+					<form className='org__form' onSubmit={onSubmit}>
+						<div className = 'org__input__wrapper'>
+							<input className='org__input input__soleid' type="text" placeholder='Enter SoleId' value={name}
+								onChange={(event) => setName(event.target.value)} />
+							<input className='org__input input__description' type="text" placeholder='Description' value={comment}
+								onChange={(event) => setComment(event.target.value)} />
+						</div>
                         <div>
                             <div className='org__left'>
                                 <label className="container">
@@ -126,6 +129,14 @@ function Main() {
                                         onChange={handleCheckboxChange} />
                                     email
                                 </label>
+								<label className="container">
+                                    <span class="checkmark"></span>
+                                    <input type="checkbox"
+                                        name="checkbox7"
+                                        // checked={checkboxValues.checkbox7}
+                                        onChange={handleCheckboxChange} />
+                                    careof
+                                </label>
                             </div>
                             <div className='org__right'>
                                 <label className="container">
@@ -152,7 +163,7 @@ function Main() {
                                         onChange={handleCheckboxChange} />
                                     address
                                 </label>
-                                <label className="container">
+								<label className="container">
                                     <span class="checkmark"></span>
                                     <input type="checkbox"
                                         name="checkbox7"
@@ -161,6 +172,8 @@ function Main() {
                                     adhaar
                                 </label>
                             </div>
+							<div className='org__right'>
+							</div>
                         </div>
                         <button className='org__button'>Get Verified data</button>
                     </form>
