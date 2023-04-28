@@ -1,12 +1,10 @@
 import xml2js from 'xml2js';
-import fs from 'fs';
 import { promisify } from 'util';
 
-const xmlData = async file => {
+const parseAdhaar = async file => {
 	if (!file) {
 		throw new Error('File is missing');
 	}
-	console.log("parseAdhaar",file);
 	const parser = new xml2js.Parser;
 	try {		
 		const data = file.buffer.toString('utf-8');
@@ -25,4 +23,4 @@ const xmlData = async file => {
 	}
 };
 
-export default xmlData;
+export default parseAdhaar;

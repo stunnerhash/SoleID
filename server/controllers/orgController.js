@@ -1,13 +1,15 @@
 import express from 'express';
+import crypto from 'crypto';
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+
 import User from '../models/user.js'
 import Organization from '../models/organization.js';
-import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-
-
 import Transaction from '../models/transaction.js';
-const secret = 'test';
+
+dotenv.config();
+const secret = process.env.SECRET_KEY;
 const router = express.Router();
 
 export const createOrganization = async (req, res) => {

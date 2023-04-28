@@ -1,13 +1,18 @@
 import express from 'express';
-import Transaction from '../models/transaction.js';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import User from '../models/user.js';
-import xmlData from '../service/parseAdhaar.js';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+import Transaction from '../models/transaction.js';
 import Organization  from '../models/organization.js';
+import parseAdhaar from '../service/parseAdhaar.js';
+
+
+dotenv.config();
+const secret = process.env.SECRET_KEY;
 const router = express.Router();
-const secret = 'test';
 
 const filePath = './adhaarXML/adhaar.xml';
 
@@ -38,7 +43,7 @@ export const getUser = async (req,res) => {
 
 export const createUser = async (req, res) => {
 	const file = req.file;
-	const result = await xmlData(file);
+	const result = await parseAdhaar(file);
 	const {name,e,m,dob,gender } = result.generalInfo;
 	const {careof,house,street,dist,state,country,pc} = result.addressInfo;
 	const address = house + ', ' + street + ', ' + dist + ', ' + state + ', ' + country +', ' + pc;

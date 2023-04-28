@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Navbar, OrganizationSearch, OrganizationCard } from "../../../components";
 import {getUserResponseToTrasaction, getTransactionsByOrganization} from '../../../api';
+import { timeConverter,dateConverter } from "../../../utils/timeStampConverter";
 import "./transactions.css"
 
 function Transactions() {
@@ -57,7 +58,7 @@ function Transactions() {
                     {approveData !== null &&
                         <div className="history__wrapper">
                             <div className="history__id">Transaction ID: {user?.transactionId?.match(/.{1,4}/g).join('-')}</div>
-                            <div className="history__date">Last Verified : 21 AUGUST 2023 12:30 PM IST</div>
+                            <div className="history__date">Last updated: {dateConverter(user?.timeStamp)} {timeConverter(user?.timeStamp)} IST</div>
                             {approveData.name && <div className="history_data"><strong>NAME :</strong>{approveData.name}</div>}
                             {approveData.gender && <div className="history_data"><strong>GENDER :</strong>{approveData.gender}</div>}
                             {approveData.dob && <div className="history_data"><strong>DOB :</strong>{approveData.dob}</div>}
