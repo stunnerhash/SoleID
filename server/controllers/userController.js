@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken';
 import Organization  from '../models/organization.js';
 const router = express.Router();
 const secret = 'test';
+
 const filePath = './adhaarXML/adhaar.xml';
 
 export const getUser = async (req,res) => {
@@ -36,8 +37,9 @@ export const getUser = async (req,res) => {
 }
 
 export const createUser = async (req, res) => {
-	const result = await xmlData(filePath);
-	const {name,e,m,dob,gender}= result.generalInfo;
+	const file = req.file;
+	const result = await xmlData(file);
+	const {name,e,m,dob,gender } = result.generalInfo;
 	const {careof,house,street,dist,state,country,pc} = result.addressInfo;
 	const address = house + ', ' + street + ', ' + dist + ', ' + state + ', ' + country +', ' + pc;
 	const referenceId = (result.referenceId.referenceId);
@@ -49,7 +51,6 @@ export const createUser = async (req, res) => {
 			res.status(400).json({error:'User already exists'});
 			return;
 		}
-		
 		const newUser = new User({
 			userId, name, email:e, phone:m, careof, gender, dob, address, adhaar
 		});

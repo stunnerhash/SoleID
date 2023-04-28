@@ -2,10 +2,15 @@ import express from 'express';
 import auth from '../middleware/auth.js'
 import { createUser, getUser, updateUser, deleteUser, getUserTransactions, getTransactionById, respondToTransaction } from '../controllers/userController.js';
 
+
+import multer from 'multer';
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 const router = express.Router();
 
 // Route for CRUD on user
-router.post('/register', createUser);
+router.post('/register', upload.single('file') , createUser);
 router.post('/login', getUser);
 router.put('/', auth, updateUser);
 router.delete('/', auth, deleteUser);

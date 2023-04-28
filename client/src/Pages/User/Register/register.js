@@ -12,7 +12,17 @@ function Register() {
 
     const formSubmit = (e) => {
         e.preventDefault();
-        createUser().then(response => {
+		if (!selectedFile) {
+			setError('Please select a file.');
+			return;
+		}
+		if (selectedFile.type !== 'text/xml') {
+			setError('Selected file is not an XML file.');
+			return;
+		}
+		const formData = new FormData();
+		formData.append('file',selectedFile);
+        createUser(formData).then(response => {
             const data = {
                 "userId": response.data.user.userId,
                 "name": response.data.user.name,

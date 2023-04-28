@@ -1,8 +1,12 @@
 CHANGES NEEDED
- 
+
+-- make 
 file upload
 decrypter
 barcode
 landing page
+
+-- change
+toast to show errors 
 card font 
 organization transactions screen replace 'try clicking on an accepted transaction' with something better

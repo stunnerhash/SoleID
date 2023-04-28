@@ -13,7 +13,7 @@ API.interceptors.request.use((req) => {
 });
 
 // user routes
-export const createUser = () => API.post('/users/register');
+export const createUser = (formData) => API.post('/users/register',formData);
 export const getUser = (formData) => API.post('/users/login', formData);
 export const updateUser = (updateData) => API.put('/users',updateData)
 export const deleteUser = () => API.delete('/users')
