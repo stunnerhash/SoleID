@@ -1,7 +1,6 @@
 CHANGES NEEDED
 
 -- make 
-file upload
 decrypter
 barcode
 landing page

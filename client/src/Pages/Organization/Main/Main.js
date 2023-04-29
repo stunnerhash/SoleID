@@ -22,7 +22,6 @@ function Main() {
 
     const isOrg = true
     const onSubmit = (event) => {
-        console.log("hi")
         event.preventDefault();
         const data = {
             "userId": name,

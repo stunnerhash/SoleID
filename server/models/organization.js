@@ -17,8 +17,6 @@ const organizationSchema = new mongoose.Schema({
 });
 
 organizationSchema.methods.authenticate = function (password) {
-	console.log(this.password+"this "+password)
-	console.log(bcrypt.compareSync(password, this.password))
   	return bcrypt.compareSync(password, this.password);
 };
 

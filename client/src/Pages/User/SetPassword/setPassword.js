@@ -12,7 +12,6 @@ function SetPassword() {
     const [userData, setUserData] = React.useState(null); 
     const formSubmit = (e) => {
         e.preventDefault();
-        console.log("called")
 		updateUser({"password":password}).then(response => {
             navigate('/user');
         }).catch((error) => {
