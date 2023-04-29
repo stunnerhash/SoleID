@@ -4,6 +4,7 @@ CHANGES NEEDED
 decrypter
 barcode
 landing page
+website logo
 
 -- change
 toast to show errors 

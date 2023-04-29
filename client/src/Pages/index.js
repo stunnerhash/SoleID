@@ -1,12 +1,12 @@
-import LandingPage from './LandingPage/landingPage';
+import LandingPage from './LandingPage';
 
-import OrganizationLogin from "./Organization/Login/login"
-import OrganizationMain from "./Organization/Main/main"
-import OrganizationTransactions from "./Organization/Transactions/transactions";
+import OrganizationLogin from "./Organization/Login/Login";
+import OrganizationMain from "./Organization/Main/Main";
+import OrganizationTransactions from "./Organization/Transactions/Transactions";
 
-import UserMain from "./User/Main/main";
-import UserLogin from "./User/Login/login"
-import UserRegister from "./User/Register/register";
-import SetPassword from "./User/SetPassword/setPassword";
+import UserRegister from "./User/Register/Register";
+import SetPassword from "./User/SetPassword/SetPassword";
+import UserLogin from "./User/Login/Login"
+import UserMain from "./User/Main/Main";
 
 export {LandingPage,OrganizationLogin,OrganizationMain,OrganizationTransactions,UserLogin,UserRegister,UserMain,SetPassword};

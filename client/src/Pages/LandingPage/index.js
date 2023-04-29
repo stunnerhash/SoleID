@@ -1,7 +1,6 @@
 import React,{useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Navbar } from '../../components';
-import './landingPage.css';
+import './index.css';
 
 function LandingPage() {
     const [error, setError] = React.useState(null);

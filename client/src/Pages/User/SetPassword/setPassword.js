@@ -3,7 +3,7 @@ import { Navbar } from '../../../components'
 import { ScanIcon } from '../../../assets'
 import { useNavigate } from 'react-router-dom';
 import {updateUser} from '../../../api'
-import './setPassword.css'
+import './SetPassword.css'
 
 function SetPassword() {
     const navigate = useNavigate();

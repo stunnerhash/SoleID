@@ -3,7 +3,7 @@ import { ScanIcon } from '../../../assets';
 import { UserCard, Navbar, UserSearch } from '../../../components';
 import {getUserTransactions,respondToTransaction} from '../../../api'
 
-import './main.css';
+import './Main.css';
 
 function Main() {
     const [userData, setUserData] = React.useState(null);

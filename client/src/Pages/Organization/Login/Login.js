@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar } from '../../../components';
 import { useNavigate } from 'react-router-dom';
 import { getOrganization } from '../../../api';
-import './login.css';
+import './Login.css';
 
 function Login() {
     const [id, setId] = React.useState('');

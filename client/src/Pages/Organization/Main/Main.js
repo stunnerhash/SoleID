@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar } from '../../../components';
 import { useState } from 'react';
 import { makeTransactionToUser } from '../../../api';
-import './main.css';
+import './Main.css';
 
 function Main() {
     const [name, setName] = React.useState('');

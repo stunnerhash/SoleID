@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Navbar, OrganizationSearch, OrganizationCard } from "../../../components";
 import {getUserResponseToTrasaction, getTransactionsByOrganization} from '../../../api';
 import { timeConverter,dateConverter } from "../../../utils/timeStampConverter";
-import "./transactions.css"
+import "./Transactions.css"
 
 function Transactions() {
     const [transactions, setTransactions] = useState([]);
@@ -47,7 +47,6 @@ function Transactions() {
                 .catch(err => console.log(err))
         }
     }, [data?.soleid]);
-
     return (
         <div>
             <Navbar isOrgProp={true} />
@@ -72,7 +71,7 @@ function Transactions() {
                 <div className='main__rightCard'>
                     <OrganizationSearch onQueryChange = {handleQueryChange}/>
                     <div className='main_rightScroll'>
-						{transactions ?.filter((transaction) =>
+						{transactions && transactions?.filter((transaction) =>
 							transaction.userId.includes(query.toLowerCase()))
 							.map((item, index) => (
 							<OrganizationCard
@@ -81,7 +80,6 @@ function Transactions() {
 								data={item}
 							/>
 						))}
-
                     </div>
                 </div>
             </div>
