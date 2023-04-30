@@ -1,9 +1,9 @@
-import Navbar from "./Shared/Navbar/navbar";
+import Navbar from "./shared/navbar/navbar";
 
-import UserSearch from "./User/Search/search";
-import UserCard from "./User/Card/card";
+import UserSearch from "./user/search/search";
+import UserCard from "./user/card/card";
 
-import OrganizationCard from "./Organization/Card/card"
-import OrganizationSearch from "./Organization/Search/search";
+import OrganizationCard from "./organization/card/card"
+import OrganizationSearch from "./organization/search/search";
 
 export { UserCard, Navbar, UserSearch, OrganizationSearch, OrganizationCard };

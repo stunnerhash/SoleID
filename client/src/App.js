@@ -1,4 +1,4 @@
-import {LandingPage,UserLogin,UserRegister,UserMain,OrganizationLogin,OrganizationMain,OrganizationTransactions,SetPassword} from './Pages';
+import {LandingPage,UserLogin,UserRegister,UserMain,OrganizationLogin,OrganizationMain,OrganizationTransactions,SetPassword} from './pages';
 import {Routes, Route} from 'react-router-dom';
 
 function App() {

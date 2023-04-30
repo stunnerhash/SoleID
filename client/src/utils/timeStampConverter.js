@@ -1,5 +1,3 @@
-import React from "react";
-
 export const dateConverter = (timeStamp)=>{
   var a = new Date(parseInt(timeStamp));
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];

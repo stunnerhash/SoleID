@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Navbar, OrganizationSearch, OrganizationCard } from "../../../components";
 import {getUserResponseToTrasaction, getTransactionsByOrganization} from '../../../api';
 import { timeConverter,dateConverter } from "../../../utils/timeStampConverter";
-import "./Transactions.css"
+import "./transactions.css"
 
 function Transactions() {
     const [transactions, setTransactions] = useState([]);

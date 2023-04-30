@@ -2,7 +2,7 @@ import React, { useState,useRef } from 'react'
 import { Navbar } from '../../../components'
 import { useNavigate } from 'react-router-dom';
 import {createUser} from '../../../api'
-import './Register.css'
+import './register.css'
 
 function Register() {
     const navigate = useNavigate();
