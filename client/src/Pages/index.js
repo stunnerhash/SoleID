@@ -2,7 +2,7 @@ import LandingPage from './LandingPage';
 
 import OrganizationLogin from "./Organization/Login/Login";
 import OrganizationMain from "./Organization/Main/Main";
-import OrganizationTransactions from "./Organization/Transactions/transactions";
+import OrganizationTransactions from "./Organization/Transactions/Transactions";
 
 import UserRegister from "./User/Register/Register";
 import SetPassword from "./User/SetPassword/SetPassword";
