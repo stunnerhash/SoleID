@@ -1,5 +1,5 @@
 import React from 'react';
-import JsBarcode from 'jsbarcode';
+import QRCode from 'qrcode.react';
 import { ScanIcon } from '../../../assets';
 import { UserCard, Navbar, UserSearch } from '../../../components';
 import {getUserTransactions,respondToTransaction} from '../../../api'
@@ -53,7 +53,6 @@ function Main() {
 
     React.useEffect(() => {
         if (userData?.userId) {  
-			// JsBarcode("#barcode",userData?.userId);
 			getUserTransactions().then(response => setTransactions(response.data));
         }
     }, [userData?.userId]);
@@ -66,7 +65,7 @@ function Main() {
                     <div className='main__cardtitle'>Welcome, {userData?.name.split(" ")[0]}  </div>
                     <div className='main__cardsubtitle'>Start verifying securely</div>
                     <div className='main__cardContainer'>
-                        <img src={ScanIcon} alt="scanIcon" />
+                        <QRCode value = {userData?.userId}/>
                         <div className='main__cardContent'>
                             <div><strong>SoleID</strong></div>
                             <div>{userData?.userId?.match(/.{1,4}/g).join('-')}</div>
@@ -96,6 +95,6 @@ function Main() {
             </div>
         </div>
     )
-};
+};	
 
 export default Main;
