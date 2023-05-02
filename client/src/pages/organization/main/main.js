@@ -89,7 +89,7 @@ function Main() {
             <Navbar isOrgProp={isOrg} />
             <div className='org__main'>
                 <div className='org__clg'> {orgData?.name} </div>
-                <div className='org__id'>ID: {orgData?.soleid?.match(/.{1,4}/g).join('-')} </div>
+                <div className='org__id'>ID: {orgData?.organizationId?.match(/.{1,4}/g).join('-')} </div>
               <div className='org__wrapper' >
                 {
 					res === ""? 

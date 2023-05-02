@@ -1,4 +1,5 @@
 import React from 'react';
+import JsBarcode from 'jsbarcode';
 import { ScanIcon } from '../../../assets';
 import { UserCard, Navbar, UserSearch } from '../../../components';
 import {getUserTransactions,respondToTransaction} from '../../../api'
@@ -8,7 +9,8 @@ import './main.css';
 function Main() {
     const [userData, setUserData] = React.useState(null);
     const [transactions, setTransactions] = React.useState([]);
-    const [query,setQuery]=React.useState("")
+    const [query,setQuery]=React.useState("");
+
     const onDeclinedAction = async (data) => {
 		const status = {"status":"rejected"};
 		await respondToTransaction(data.transactionId,status);
@@ -50,11 +52,12 @@ function Main() {
     }, []);
 
     React.useEffect(() => {
-        if (userData?.userId) {   
+        if (userData?.userId) {  
+			// JsBarcode("#barcode",userData?.userId);
 			getUserTransactions().then(response => setTransactions(response.data));
         }
     }, [userData?.userId]);
-    
+   
     return (
         <div>
             <Navbar />

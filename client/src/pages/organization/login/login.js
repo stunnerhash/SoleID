@@ -19,7 +19,7 @@ function Login() {
 		getOrganization(data)
 		.then(response => {
 			const orgData={
-				"soleid":response.data.organization.organizationId,
+				"organizationId":response.data.organization.organizationId,
                 "name":response.data.organization.name,
             };
 			localStorage.setItem("organizationToken",response.data.token);       

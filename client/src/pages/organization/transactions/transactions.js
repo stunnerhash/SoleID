@@ -41,12 +41,12 @@ function Transactions() {
         getLocalData();
     }, []);
     React.useEffect(() => {
-        if (data?.soleid) {
+        if (data?.organizationId) {
 			getTransactionsByOrganization()
                 .then(res => { setTransactions(res.data) })
                 .catch(err => console.log(err))
         }
-    }, [data?.soleid]);
+    }, [data?.organizationId]);
     return (
         <div>
             <Navbar isOrgProp={true} />
