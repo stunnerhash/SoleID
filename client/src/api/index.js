@@ -1,6 +1,9 @@
 import axios from 'axios';
-
-const API = axios.create({ baseURL: process.env.BASE_URL || 'http://localhost:8000' });
+const BASE_URL = (process.env.NODE_ENV === 'production'? 
+				'https://soleid-server.onrender.com':
+				'http://localhost:8000');
+const API = axios.create({ baseURL: BASE_URL });
+console.log(BASE_URL);
 API.interceptors.request.use((req) => {
 	const userToken = localStorage.getItem('userToken');
 	const organizationToken = localStorage.getItem('organizationToken');
