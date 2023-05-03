@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Navbar } from '../../../components'
-import { ScanIcon } from '../../../assets'
+import QRCode from 'qrcode.react';
 import { useNavigate } from 'react-router-dom';
 import {updateUser} from '../../../api'
 import './setpassword.css'
@@ -49,7 +49,7 @@ function SetPassword() {
             <div className='login__headline set__headline' >ALL SET! HERE IS YOUR YOUR SOLE ID </div>
             <div className='login__line'></div>
             <div className='main__cardContainer '>
-                <img src={ScanIcon} alt="scanIcon" />
+				<QRCode value = {userData?.userId}/>
                 <div className='main__cardContent'>
                     <div><strong>SoleID</strong></div>
                     <div>{userData?.userId?.match(/.{1,4}/g).join('-')}</div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import QRCode from 'qrcode.react';
-import { ScanIcon } from '../../../assets';
 import { UserCard, Navbar, UserSearch } from '../../../components';
 import {getUserTransactions,respondToTransaction} from '../../../api'
 
