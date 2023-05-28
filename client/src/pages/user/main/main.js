@@ -2,6 +2,7 @@ import React from 'react';
 import QRCode from 'qrcode.react';
 import { UserCard, Navbar, UserSearch } from '../../../components';
 import {getUserTransactions,respondToTransaction} from '../../../api'
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import './main.css';
 
@@ -9,7 +10,7 @@ function Main() {
     const [userData, setUserData] = React.useState(null);
     const [transactions, setTransactions] = React.useState([]);
     const [query,setQuery]=React.useState("");
-
+	const navigate = useNavigate();
     const onDeclinedAction = async (data) => {
 		const status = {"status":"rejected"};
 		await respondToTransaction(data.transactionId,status);
@@ -42,6 +43,12 @@ function Main() {
     const handleQueryChange = (newQuery) => {
         setQuery(newQuery);
 	}
+	const handleUpdate = ()=>{
+		navigate('/user/setPassword');
+	}
+	const handleDelete = ()=>{		
+		deleteUser();
+	}
     React.useEffect(() => {
         const getLocalData = () => {
             const data = JSON.parse(localStorage.getItem('user'));
@@ -72,8 +79,8 @@ function Main() {
                             <div>ISSUED : {issuedDate(userData?.expiry)}</div>
                         </div>
                     </div>
-                    <button className='btn updatebtn'>Update Information</button>
-                    <button className='btn revokebtn'>Revoke Credetentials</button>
+                    <button className='btn updatebtn' onClick={handleUpdate}>Update Information</button>
+                    <button className='btn revokebtn' onClick={handleDelete}>Revoke Credetentials</button>
                 </div>
 
                 <div className='main__rightCard'>

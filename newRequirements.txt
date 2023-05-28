@@ -2,7 +2,6 @@ CHANGES NEEDED
 
 -- make 
 decrypter
-barcode
 landing page
 website logo
 
