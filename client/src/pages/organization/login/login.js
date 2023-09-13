@@ -39,7 +39,6 @@ function Login() {
 
 			<div className="login__headline login__organization">LOG INTO YOUR ORGANIZATION ACCOUNT</div>
 			<div className='login__line'></div>
-
 			{error && <div className='login__error'>{error}</div>}
 			<form onSubmit={onSubmit} className="login__form">
 				<input

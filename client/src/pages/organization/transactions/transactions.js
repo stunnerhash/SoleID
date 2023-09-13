@@ -73,6 +73,7 @@ function Transactions() {
                     <div className='main_rightScroll'>
 						{transactions && transactions?.filter((transaction) =>
 							transaction.userId.includes(query.toLowerCase()))
+                            .reverse()
 							.map((item, index) => (
 							<OrganizationCard
 								onCardClick={onCardClick}

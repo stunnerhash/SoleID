@@ -1,10 +1,10 @@
 import express from 'express';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
-import User from '../models/user.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
+import User from '../models/user.js';
 import Transaction from '../models/transaction.js';
 import Organization  from '../models/organization.js';
 import parseAdhaar from '../service/parseAdhaar.js';

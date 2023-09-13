@@ -88,6 +88,7 @@ function Main() {
                     <div className='main_rightScroll'>
                         {transactions?.filter((transaction)=> 
 							transaction.organizationName.includes(query.toUpperCase()))
+                            .reverse()
 							.map((item, index) => (
                             <UserCard
                                 key={index}

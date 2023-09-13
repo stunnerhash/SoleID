@@ -18,6 +18,7 @@ function Main() {
         checkbox5: false,
         checkbox6: false,
         checkbox7: false,
+        checkbox8: false,
     });
 
     const isOrg = true
@@ -48,6 +49,9 @@ function Main() {
                 },
                 "adhaar": {
                     "isRequired": checkboxValues.checkbox7
+                },
+                "careof": {
+                    "isRequired": checkboxValues.checkbox8
                 }
             }
         }
@@ -67,6 +71,7 @@ function Main() {
             checkbox5: false,
             checkbox6: false,
             checkbox7: false,
+            checkbox8: false,
         })
     }
     function handleCheckboxChange(event) {
@@ -128,16 +133,6 @@ function Main() {
                                         onChange={handleCheckboxChange} />
                                     email
                                 </label>
-								<label className="container">
-                                    <span class="checkmark"></span>
-                                    <input type="checkbox"
-                                        name="checkbox7"
-                                        // checked={checkboxValues.checkbox7}
-                                        onChange={handleCheckboxChange} />
-                                    careof
-                                </label>
-                            </div>
-                            <div className='org__right'>
                                 <label className="container">
                                     <span class="checkmark"></span>
                                     <input type="checkbox"
@@ -146,6 +141,8 @@ function Main() {
                                         onChange={handleCheckboxChange} />
                                     gender
                                 </label>
+                            </div>
+                            <div className='org__right'>
                                 <label className="container">
                                     <span class="checkmark"></span>
                                     <input type="checkbox"
@@ -169,6 +166,14 @@ function Main() {
                                         checked={checkboxValues.checkbox7}
                                         onChange={handleCheckboxChange} />
                                     adhaar
+                                </label>
+                                <label className="container">
+                                    <span class="checkmark"></span>
+                                    <input type="checkbox"
+                                        name="checkbox8"
+                                        checked={checkboxValues.checkbox8}
+                                        onChange={handleCheckboxChange} />
+                                    careof
                                 </label>
                             </div>
 							<div className='org__right'>
